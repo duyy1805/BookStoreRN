@@ -301,16 +301,3 @@ const BookDetail = ({route,navigation}) => {
 }
 
 export default BookDetail;
-
-const Stack = createStackNavigator();
-
-// export default function MyStack (){
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen options={{headerMode: 'none'}} name="BookDetail" component={BookDetail} />
-//       <Stack.Screen options={{headerMode: 'none'}} name="ReadBook" component={readBook} />
-//     </Stack.Navigator>
-//   );
-// }
-
-// export default MyStack
