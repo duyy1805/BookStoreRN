@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View,SafeAreaView,
-          Dimensions, TouchableOpacity,
-          FlatList,Image,ImageBackground
+import {
+          Dimensions
 } from 'react-native';
 
 import {Ionicons, AntDesign} from "@expo/vector-icons"
@@ -15,7 +14,7 @@ const Dev_width = Dimensions.get('window').width
 import Library from './src/Components/Library'
 import SearchBar from './src/Components/SearchBar';
 import Home from './src/Components/Home';
-import { Searchbar } from 'react-native-paper';
+// import { Searchbar } from 'react-native-paper';
 
 
 const readBook =() => {

@@ -8,12 +8,13 @@ import {WebView} from 'react-native-webview'
 import { NavigationContainer } from '@react-navigation/native';
 import {Ionicons, AntDesign} from "@expo/vector-icons"
  import BookDetail from './BookDetail'
+ import Library from './Library'
 import { ProgressBar, Colors, Searchbar} from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
 const Dev_Height = Dimensions.get('window').height
 const Dev_width = Dimensions.get('window').width
  
-class Home1 extends React.Component {
+class Home extends React.Component {
  
   constructor(props){
     super(props);
@@ -196,7 +197,7 @@ const readBook =() => {
 export default function MyStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen options={{headerMode: 'none'}} name="Home1" component={Home1} />
+      <Stack.Screen options={{headerMode: 'none'}} name="Home1" component={Home} />
       <Stack.Screen options={{headerMode: 'none'}} name="BookDetail" component={BookDetail} />
       <Stack.Screen options={{headerMode: 'none'}} name="ReadBook" component={readBook} />
     </Stack.Navigator>

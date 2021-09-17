@@ -4,7 +4,7 @@ import { StyleSheet, Text, View,SafeAreaView,
           Dimensions, TouchableOpacity,Button,
           FlatList,Image,ImageBackground,RefreshControl,ActivityIndicator
 } from 'react-native';
-// import {WebView} from 'react-native-webview'
+import {WebView} from 'react-native-webview'
 import { NavigationContainer } from '@react-navigation/native';
 import {Ionicons, AntDesign} from "@expo/vector-icons"
 import BookDetail from './BookDetail'
@@ -65,7 +65,7 @@ class Library extends React.Component {
 
   _render_item = ({item,index}) => {
     return(
-      <TouchableOpacity onPress = {() => this.props.navigation.navigate("BookDetail", { book : item })}>
+      <TouchableOpacity onPress = {() => this.props.navigation.navigate("BookDetail_1", { book : item })}>
         <ImageBackground source= {{uri:item.image}} imageStyle={{borderRadius:25}} style={{height:250,width:140,margin:10}}> 
           <Text style={{marginTop:"100%",color:"#FFF",fontSize:15,marginLeft:10,fontWeight:"bold"}}>{item.title1}</Text>     
           <Text style={{color:"#FFF",fontSize:14,marginLeft:10}}>{item.author}</Text>     
@@ -115,12 +115,17 @@ class Library extends React.Component {
 
 
 const Stack = createStackNavigator();
-
+const readBook =() => {
+  return(
+  <WebView source={{ uri: "https://reactnativemaster.com/wp-content/uploads/2020/02/React-native-document-viewer-pdf-sample.pdf" }} />
+  )
+}
 export default function MyStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen options={{headerMode: 'none'}} name="Library1" component={Library} />
-      <Stack.Screen options={{headerMode: 'none'}} name="BookDetail" component={BookDetail} />
+      <Stack.Screen options={{headerMode: 'none'}} name="Library_1" component={Library} />
+      <Stack.Screen options={{headerMode: 'none'}} name="BookDetail_1" component={BookDetail} />
+      <Stack.Screen options={{headerMode: 'none'}} name="ReadBook" component={readBook} />
     </Stack.Navigator>
   );
 }
