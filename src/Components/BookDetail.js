@@ -22,7 +22,7 @@ const LineDivider = () => {
         </View>
     )
 }
-
+//ok
 const readBook =() => {
     return(
     <WebView source={{ uri: "https://reactnativemaster.com/wp-content/uploads/2020/02/React-native-document-viewer-pdf-sample.pdf" }} />
