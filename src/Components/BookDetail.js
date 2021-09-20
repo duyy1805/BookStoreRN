@@ -23,11 +23,13 @@ const LineDivider = () => {
     )
 }
 //ok
-const readBook =() => {
+const readBook =({route,navigation}) => {
+    const {book} = route.params;
     return(
-    <WebView source={{ uri: "https://reactnativemaster.com/wp-content/uploads/2020/02/React-native-document-viewer-pdf-sample.pdf" }} />
+    alert(book.uri),
+    <WebView source={{ uri: book.uri}} />
     )
-}
+  }
 const BookDetail = ({route,navigation}) => {
     const [colorDL,setColorDL] = useState("#EFEFF0")
     const [scrollViewWholeHeight, setScrollViewWholeHeight] = React.useState(1);
@@ -224,7 +226,7 @@ const BookDetail = ({route,navigation}) => {
         )
     }
 
-    const renderBottomButton = () => {
+    const renderBottomButton = (item,index) => {
         useEffect( () => {
             stt == true ? setColorDL("#62b35d") : setColorDL("#EFEFF0")
             console.log(stt)
@@ -268,7 +270,7 @@ const BookDetail = ({route,navigation}) => {
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}
-                    onPress={() => navigation.navigate("ReadBook")}
+                    onPress={() => navigation.navigate("ReadBook",{i : item})}
                 >
                     <Text style={{ fontSize: 16, lineHeight: 22, color: "#FFFFFF" }}>Start Reading</Text>
                 </TouchableOpacity>
@@ -300,4 +302,4 @@ const BookDetail = ({route,navigation}) => {
     }
 }
 
-export default BookDetail;
+export default {BookDetail,readBook};

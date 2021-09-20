@@ -16,12 +16,6 @@ import SearchBar from './src/Components/SearchBar';
 import Home from './src/Components/Home';
 // import { Searchbar } from 'react-native-paper';
 
-
-const readBook =() => {
-  return(
-  <WebView source={{ uri: "https://reactnativemaster.com/wp-content/uploads/2020/02/React-native-document-viewer-pdf-sample.pdf" }} />
-  )
-}
 const Tab = createBottomTabNavigator();
 export default class App extends React.Component {
   render(){

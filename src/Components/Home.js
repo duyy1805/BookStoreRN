@@ -7,8 +7,8 @@ import { StyleSheet, Text, View,SafeAreaView,
 import {WebView} from 'react-native-webview'
 import { NavigationContainer } from '@react-navigation/native';
 import {Ionicons, AntDesign} from "@expo/vector-icons"
- import BookDetail from './BookDetail'
- import Library from './Library'
+import B from './BookDetail'
+import Library from './Library'
 import { ProgressBar, Colors, Searchbar} from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
 const Dev_Height = Dimensions.get('window').height
@@ -188,18 +188,12 @@ const LineDivider = () => {
 }
 const Stack = createStackNavigator();
 
-const readBook =() => {
-  return(
-  <WebView source={{ uri: "https://reactnativemaster.com/wp-content/uploads/2020/02/React-native-document-viewer-pdf-sample.pdf" }} />
-  )
-}
-
 export default function MyStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{headerMode: 'none'}} name="Home1" component={Home} />
-      <Stack.Screen options={{headerMode: 'none'}} name="BookDetail" component={BookDetail} />
-      <Stack.Screen options={{headerMode: 'none'}} name="ReadBook" component={readBook} />
+      <Stack.Screen options={{headerMode: 'none'}} name="BookDetail" component={B.BookDetail} />
+      <Stack.Screen options={{headerMode: 'none'}} name="ReadBook" component={B.readBook} />
     </Stack.Navigator>
   );
 }

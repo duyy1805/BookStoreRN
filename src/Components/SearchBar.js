@@ -9,11 +9,15 @@ import {
     Text,
     Image,
     TouchableHighlight,
-    ScrollView
+    ScrollView,
+    TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5'
-
+import { createStackNavigator } from '@react-navigation/stack';
 import Animated, {Easing, timing} from 'react-native-reanimated'
+import { FlatList } from "react-native-gesture-handler";
+import B from './BookDetail'
+
 const {Value, timeing} = Animated
 
 const height = Dimensions.get('window').height
@@ -25,6 +29,7 @@ class SearchBar extends React.Component{
         super(props)
         //state
         this.state={
+            items:[],
             isForcused: false,
             keyword: ''
         }
@@ -34,71 +39,66 @@ class SearchBar extends React.Component{
         this._content_translate_y = new Value(height)
         this._content_opacity = new Value(0)
     }
-    
-_onFocus = () => {
-    //update state
-    this.setState({isForcused: true})
-    //animation config
-    // input box
-    const input_box_translate_x_config = {
-        duration : 200,
-        toValue:  0,
-        easing: Easing.inOut(Easing.ease)
+    componentDidUpdate(){
+        if(this.state.items == null){
+            const getItem=()=>{
+                fetch('http:192.168.8.100:5000/api/book/autocomplete',{
+                    method : "POST",
+                    headers : {
+                        'Accept': 'application/json',
+                        "Content-Type" : "application/json"
+                    },
+                    body : JSON.stringify({
+                        title: this.state.keyword
+                    }),
+                })
+                  .then((res)=>res.json())
+                  .then((data)=>{
+                    this.setState({
+                      items:data     
+                    })
+                  }
+                )
+              }
+            getItem()
+        }
     }
-    const back_button_opacity_config = {
-        duration : 200,
-        toValue:  1,
-        easing: Easing.inOut(Easing.ease)
-    }
-    // content 
-    const content_translate_y_config = {
-        duration : 0,
-        toValue:  0,
-        easing: Easing.inOut(Easing.ease)
-    }
-    const content_opacity_config = {
-        duration : 200,
-        toValue:  1,
-        easing: Easing.inOut(Easing.ease)
-    }
+      _render_item = ({item,index}) => {
+        return(
+          <TouchableOpacity style={styles.search_item} onPress = {() => this.props.navigation.navigate("BookDetail", {book : item})}>
+            <Icon style={styles.item_icon} name="search" size={16} color="#cccccc" />
+            <Text>{item.title1}</Text>   
+          </TouchableOpacity>
+        )
+      }
 
-    //run animation
-    timing(this._input_box_translate_x,input_box_translate_x_config).start()
-    timing(this._back_button_opacity, back_button_opacity_config).start()
-    timing(this._content_translate_y,content_translate_y_config).start()
-    timing(this._content_opacity,content_opacity_config).start()
-
-    // force blur
-    this.refs.input.focus()
-
-}
-_onBlur = () => {
+    _onFocus = () => {
         //update state
-        this.setState({isForcused: false})
+        this.setState({isForcused: true})
         //animation config
         // input box
         const input_box_translate_x_config = {
             duration : 200,
-            toValue:  width,
+            toValue:  0,
             easing: Easing.inOut(Easing.ease)
         }
         const back_button_opacity_config = {
-            duration : 50,
-            toValue:  0,
+            duration : 200,
+            toValue:  1,
             easing: Easing.inOut(Easing.ease)
         }
         // content 
         const content_translate_y_config = {
             duration : 0,
-            toValue:  height,
+            toValue:  10,
             easing: Easing.inOut(Easing.ease)
         }
         const content_opacity_config = {
             duration : 200,
-            toValue:  0,
+            toValue:  1,
             easing: Easing.inOut(Easing.ease)
         }
-    
+
         //run animation
         timing(this._input_box_translate_x,input_box_translate_x_config).start()
         timing(this._back_button_opacity, back_button_opacity_config).start()
@@ -106,8 +106,45 @@ _onBlur = () => {
         timing(this._content_opacity,content_opacity_config).start()
 
         // force blur
-        this.refs.input.blur()
-}
+        this.refs.input.focus()
+
+    }
+    _onBlur = () => {
+            //update state
+            this.setState({isForcused: false})
+            //animation config
+            // input box
+            const input_box_translate_x_config = {
+                duration : 200,
+                toValue:  width,
+                easing: Easing.inOut(Easing.ease)
+            }
+            const back_button_opacity_config = {
+                duration : 50,
+                toValue:  0,
+                easing: Easing.inOut(Easing.ease)
+            }
+            // content 
+            const content_translate_y_config = {
+                duration : 0,
+                toValue:  height,
+                easing: Easing.inOut(Easing.ease)
+            }
+            const content_opacity_config = {
+                duration : 200,
+                toValue:  0,
+                easing: Easing.inOut(Easing.ease)
+            }
+        
+            //run animation
+            timing(this._input_box_translate_x,input_box_translate_x_config).start()
+            timing(this._back_button_opacity, back_button_opacity_config).start()
+            timing(this._content_translate_y,content_translate_y_config).start()
+            timing(this._content_opacity,content_opacity_config).start()
+
+            // force blur
+            this.refs.input.blur()
+    }
     render(){
         return( 
             
@@ -147,7 +184,7 @@ _onBlur = () => {
                                     placeholder="Search book"
                                     clearButtonMode="always"
                                     value={this.state.keyword}
-                                    onChangeText={(value) => this.setState({keyword: value}) }
+                                    onChangeText={(value) => this.setState({items : null,keyword: value}) }
                                     style={styles.input}
                                 />
                             </Animated.View>
@@ -172,24 +209,15 @@ _onBlur = () => {
                                         </Text> 
                                     </View>
                                 :
-                                <ScrollView>
-                                    <View style={styles.search_item}>
-                                        <Icon style={styles.item_icon} name="search" size={16} color="#cccccc" />
-                                        <Text>Kết quả 1 nè </Text>
-                                    </View>
-                                    <View style={styles.search_item}>
-                                        <Icon style={styles.item_icon} name="search" size={16} color="#cccccc" />
-                                        <Text>Kết quả 2 nè </Text>
-                                    </View>
-                                    <View style={styles.search_item}>
-                                        <Icon style={styles.item_icon} name="search" size={16} color="#cccccc" />
-                                        <Text>Kết quả 3 nè </Text>
-                                    </View>
-                                    <View style={styles.search_item}>
-                                        <Icon style={styles.item_icon} name="search" size={16} color="#cccccc" />
-                                        <Text>Kết quả 4 nè </Text>
-                                    </View>
-                                </ScrollView>
+                                    <FlatList 
+                                    data={this.state.items}
+                                    renderItem={this._render_item}
+                                    keyExtractor={item => item._id.toString()}
+                                    style={{marginLeft:"7%", height:300,width:"100%",marginTop:10}}
+                                    ItemSeparatorComponent={
+                                    () => <View style={{width:"30%",height:20}}/>
+                                    }
+                                />
                             }
                         </View>
                     </SafeAreaView>
@@ -199,7 +227,21 @@ _onBlur = () => {
     }
 }
 
-export default SearchBar
+// export default SearchBar
+
+const Stack = createStackNavigator();
+
+export default function MyStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{headerMode: 'none'}} name="SearchBar" component={SearchBar} />
+      <Stack.Screen options={{headerMode: 'none'}} name="BookDetail" component={B.BookDetail} />
+    </Stack.Navigator>
+  );
+
+  }
+
+
 
 const styles = StyleSheet.create({
     header_safe_area:{
@@ -294,7 +336,7 @@ const styles = StyleSheet.create({
     },
     search_item:{
         flexDirection:'row',
-        height:40,
+        height:30,
         alignItems:'center',
         borderBottomWidth:1,
         borderBottomColor:'#e4e6eb',
