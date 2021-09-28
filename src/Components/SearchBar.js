@@ -23,7 +23,7 @@ const {Value, timeing} = Animated
 
 const height = Dimensions.get('window').height
 const width = Dimensions.get('window').width
-
+//fsd
 class SearchBar extends React.Component{
     
     constructor(props){

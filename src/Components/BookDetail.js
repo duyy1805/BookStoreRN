@@ -1,29 +1,58 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState,useEffect} from 'react';
-import { StyleSheet, Text, View,SafeAreaView,
-          Dimensions, TouchableOpacity,
-          FlatList,Image,ImageBackground,Animated,
-          ScrollView,NativeModules
-} from 'react-native';
-import {Ionicons, AntDesign} from "@expo/vector-icons"
-import { ProgressBar, Colors, Searchbar } from 'react-native-paper';
-import {WebView} from 'react-native-webview'
-import { createStackNavigator } from '@react-navigation/stack';
+import { StatusBar } from "expo-status-bar";
+import React, { useState, useEffect } from "react";
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
 
-const Dev_Height = Dimensions.get('window').height
-const Dev_width = Dimensions.get('window').width
-
+<<<<<<< HEAD
 // const [books,setBooks] = useState()
+=======
+import {
+    StyleSheet,
+    Text,
+    View,
+    SafeAreaView,
+    Dimensions,
+    TouchableOpacity,
+    FlatList,
+    Image,
+    ImageBackground,
+    Animated,
+    ScrollView,
+    NativeModules,
+    Button,
+} from "react-native";
+import {
+    AndroidImportance,
+    AndroidNotificationVisibility,
+    NotificationChannel,
+    NotificationChannelInput,
+    NotificationContentInput,
+} from "expo-notifications";
+import { downloadToFolder } from "expo-file-dl";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { ProgressBar, Colors, Searchbar } from "react-native-paper";
+import { WebView } from "react-native-webview";
+import { createStackNavigator } from "@react-navigation/stack";
+>>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
 
+const Dev_Height = Dimensions.get("window").height;
+const Dev_width = Dimensions.get("window").width;
 
 const LineDivider = () => {
     return (
         <View style={{ width: 1, paddingVertical: 5 }}>
-            <View style={{ flex: 1, borderLeftColor: "#EFEFF0", borderLeftWidth: 1 }}></View>
+            <View
+                style={{
+                    flex: 1,
+                    borderLeftColor: "#EFEFF0",
+                    borderLeftWidth: 1,
+                }}
+            ></View>
         </View>
-    )
-}
+    );
+};
 //ok
+<<<<<<< HEAD
 const readBook =({route,navigation}) => {
     const book = route.params;
     return(
@@ -32,82 +61,195 @@ const readBook =({route,navigation}) => {
   }
 const BookDetail = ({route,navigation}) => {
     const [colorDL,setColorDL] = useState("#EFEFF0")
+=======
+const readBook = ({ route, navigation }) => {
+    const { book } = route.params;
+    return alert(book.uri), (<WebView source={{ uri: book.uri }} />);
+};
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+    }),
+});
+
+const BookDetail = ({ route, navigation }) => {
+    const [colorDL, setColorDL] = useState("#EFEFF0");
+>>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
     const [scrollViewWholeHeight, setScrollViewWholeHeight] = React.useState(1);
-    const [scrollViewVisibleHeight, setScrollViewVisibleHeight] = React.useState(0);
-    const {book} = route.params;
+    const [scrollViewVisibleHeight, setScrollViewVisibleHeight] =
+        React.useState(0);
+    const { book } = route.params;
     const indicator = new Animated.Value(0);
+<<<<<<< HEAD
     const [stt,setStt] = useState(book.status)
     console.log(book.status)
+=======
+    const [stt, setStt] = useState(book.status);
+    const channelId = "DownloadInfo";
+
+    async function setNotificationChannel() {
+        const loadingChannel: NotificationChannel | null =
+            await Notifications.getNotificationChannelAsync(channelId);
+
+        // if we didn't find a notification channel set how we like it, then we create one
+        if (loadingChannel == null) {
+            const channelOptions: NotificationChannelInput = {
+                name: channelId,
+                importance: AndroidImportance.HIGH,
+                lockscreenVisibility: AndroidNotificationVisibility.PUBLIC,
+                sound: "default",
+                vibrationPattern: [250],
+                enableVibrate: true,
+            };
+            await Notifications.setNotificationChannelAsync(
+                channelId,
+                channelOptions
+            );
+        }
+    }
+
+    useEffect(() => {
+        setNotificationChannel();
+    });
+
+    // IMPORTANT: You MUST obtain MEDIA_LIBRARY permissions for the file download to succeed
+    // If you don't the downloads will fail
+
+    async function getMediaLibraryPermissions() {
+        await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+    }
+
+    async function getNotificationPermissions() {
+        await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    }
+
+    const downloadProgressUpdater = ({
+        totalBytesWritten,
+        totalBytesExpectedToWrite,
+    }: {
+        totalBytesWritten: number,
+        totalBytesExpectedToWrite: number,
+    }) => {
+        const pctg = 100 * (totalBytesWritten / totalBytesExpectedToWrite);
+        // setDownloadProgress(`${pctg.toFixed(0)}%`);
+    };
+
+    useEffect(() => {
+        getMediaLibraryPermissions();
+    });
+
+    useEffect(() => {
+        getNotificationPermissions();
+    });
+>>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
     function DownloadBook() {
-        // const {book} = route.params;
-        // console.log(book.status)
         const download = async () => {
+<<<<<<< HEAD
             fetch('http:192.168.8.102:5000/api/book/download',{
                 method : "POST",
                 headers : {
                     "Content-Type" : "application/json"
+=======
+            fetch("http:172.20.10.2:5000/api/book/download", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+>>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
                 },
-                body : JSON.stringify({
-                    title: book.title1
+                body: JSON.stringify({
+                    title: book.title1,
                 }),
             })
-            .then((res) => res.json())
-            .then(async (data) => {
-                try {
-                    console.log('updated')
-                } catch (e) {
-                    throw e,
-                    console.log("error",e)
-                }
-            })
+                .then((res) => res.json())
+                .then(async (data) => {
+                    try {
+                        console.log("updated");
+                    } catch (e) {
+                        throw (e, console.log("error", e));
+                    }
+                });
             // setColorDL("#62b35d")
-            setStt(true)
-            book.status= true
-        }
+            setStt(true);
+            book.status = true;
+        };
         download();
     }
+    // function DownloadBook2() {
+    //     var uri = book.image;
+    //     var filename = book.title1;
+    //     const downloadToFolder = async () => {
+    //         downloadToFolder(uri, filename, "Download", channelId, {
+    //             downloadProgressCallback: downloadProgressUpdater,
+    //         });
+    //     };
+    //     downloadToFolder();
+    // }
+
     function renderBookInfoSection() {
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground
-                    source={{uri:book.image}}
+                    source={{ uri: book.image }}
                     resizeMode="cover"
                     style={{
-                        position: 'absolute',
+                        position: "absolute",
                         top: 0,
                         right: 0,
                         bottom: 0,
-                        left: 0
+                        left: 0,
                     }}
                 />
 
                 {/* Color Overlay */}
                 <View
                     style={{
-                        position: 'absolute',
+                        position: "absolute",
                         top: 0,
                         right: 0,
                         bottom: 0,
                         left: 0,
-                        backgroundColor: "rgba(240,240,232,0.8)"
+                        backgroundColor: "rgba(240,240,232,0.8)",
                     }}
-                >
-                </View>
+                ></View>
 
                 {/* Navigation header */}
-                <View style={{ flexDirection: 'row', paddingHorizontal: 12, height: 80, alignItems: 'flex-end' }}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        paddingHorizontal: 12,
+                        height: 80,
+                        alignItems: "flex-end",
+                    }}
+                >
                     <TouchableOpacity
                         style={{ marginLeft: 8 }}
                         onPress={() => navigation.goBack()}
                     >
                         <Ionicons
                             name="arrow-back-outline"
-                            color="red" size={35}
+                            color="red"
+                            size={35}
                         />
                     </TouchableOpacity>
 
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 16, lineHeight: 22 , color: "#000" }}>Book Detail</Text>
+                    <View
+                        style={{
+                            flex: 1,
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Text
+                            style={{
+                                fontSize: 16,
+                                lineHeight: 22,
+                                color: "#000",
+                            }}
+                        >
+                            Book Detail
+                        </Text>
                     </View>
 
                     <TouchableOpacity
@@ -115,46 +257,77 @@ const BookDetail = ({route,navigation}) => {
                         onPress={() => console.log("Click More")}
                     >
                         <Ionicons
-                            name ="ellipsis-horizontal-outline"
+                            name="ellipsis-horizontal-outline"
                             resizeMode="contain"
-                            color="red" size={35}
+                            color="red"
+                            size={35}
                         />
                     </TouchableOpacity>
                 </View>
 
                 {/* Book Cover */}
-                <View style={{ flex: 5, paddingTop: 36, alignItems: 'center' }}>
+                <View style={{ flex: 5, paddingTop: 36, alignItems: "center" }}>
                     <ImageBackground
-                        source={{uri:book.image}}
+                        source={{ uri: book.image }}
                         resizeMode="contain"
                         style={{
                             flex: 1,
                             width: 150,
-                            height: "auto"
+                            height: "auto",
                         }}
                     />
                 </View>
 
                 {/* Book Name and Author */}
-                <View style={{ flex: 1.8, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 22, lineHeight: 30 , color: "#000" }}>{book.title1}</Text>
-                    <Text style={{fontSize: 16, lineHeight: 22, color: "#000" }}>{book.author}</Text>
+                <View
+                    style={{
+                        flex: 1.8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Text
+                        style={{ fontSize: 22, lineHeight: 30, color: "#000" }}
+                    >
+                        {book.title1}
+                    </Text>
+                    <Text
+                        style={{ fontSize: 16, lineHeight: 22, color: "#000" }}
+                    >
+                        {book.author}
+                    </Text>
                 </View>
 
                 {/* Book Info */}
                 <View
                     style={{
-                        flexDirection: 'row',
+                        flexDirection: "row",
                         paddingVertical: 20,
                         margin: 24,
                         borderRadius: 12,
-                        backgroundColor: "rgba(0,0,0,0.3)"
+                        backgroundColor: "rgba(0,0,0,0.3)",
                     }}
                 >
                     {/* Rating */}
-                    <View style={{ flex: 1, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, lineHeight: 22, color: "#FFFFFF" }}>{book.rating}</Text>
-                        <Text style={{ fontSize: 14, lineHeight: 22 , color: "#FFFFFF" }}>Rating</Text>
+                    <View style={{ flex: 1, alignItems: "center" }}>
+                        <Text
+                            style={{
+                                fontSize: 16,
+                                lineHeight: 22,
+                                color: "#FFFFFF",
+                            }}
+                        >
+                            {book.rating}
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: 14,
+                                lineHeight: 22,
+                                color: "#FFFFFF",
+                            }}
+                        >
+                            Rating
+                        </Text>
                     </View>
 
                     {/* <LineDivider /> */}
@@ -168,37 +341,71 @@ const BookDetail = ({route,navigation}) => {
                     <LineDivider />
 
                     {/* Language */}
-                    <View style={{ flex: 1, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 16, lineHeight: 22, color: "#FFFFFF" }}>{book.language}</Text>
-                        <Text style={{ fontSize: 14, lineHeight: 22 , color: "#FFFFFF" }}>Language</Text>
+                    <View style={{ flex: 1, alignItems: "center" }}>
+                        <Text
+                            style={{
+                                fontSize: 16,
+                                lineHeight: 22,
+                                color: "#FFFFFF",
+                            }}
+                        >
+                            {book.language}
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: 14,
+                                lineHeight: 22,
+                                color: "#FFFFFF",
+                            }}
+                        >
+                            Language
+                        </Text>
                     </View>
                 </View>
             </View>
-        )
+        );
     }
 
     function renderBookDescription() {
+        const indicatorSize =
+            scrollViewWholeHeight > scrollViewVisibleHeight
+                ? (scrollViewVisibleHeight * scrollViewVisibleHeight) /
+                  scrollViewWholeHeight
+                : scrollViewVisibleHeight;
 
-        const indicatorSize = scrollViewWholeHeight > scrollViewVisibleHeight ? scrollViewVisibleHeight * scrollViewVisibleHeight / scrollViewWholeHeight : scrollViewVisibleHeight
-
-        const difference = scrollViewVisibleHeight > indicatorSize ? scrollViewVisibleHeight - indicatorSize : 1
+        const difference =
+            scrollViewVisibleHeight > indicatorSize
+                ? scrollViewVisibleHeight - indicatorSize
+                : 1;
 
         return (
-            <View style={{ flex: 1, flexDirection: 'row', padding: 12 }}>
+            <View style={{ flex: 1, flexDirection: "row", padding: 12 }}>
                 {/* Custom Scrollbar */}
-                <View style={{ width: 4, height: "100%", backgroundColor: "#282C35" }}>
-                    <Animated.View 
+                <View
+                    style={{
+                        width: 4,
+                        height: "100%",
+                        backgroundColor: "#282C35",
+                    }}
+                >
+                    <Animated.View
                         style={{
                             width: 4,
                             height: indicatorSize,
-                            backgroundColor: '#7D7E84',
-                            transform: [{
-                                translateY: Animated.multiply(indicator, scrollViewVisibleHeight / scrollViewWholeHeight).interpolate({
-                                    inputRange: [0, difference],
-                                    outputRange: [0, difference],
-                                    extrapolate: 'clamp'
-                                })
-                            }]
+                            backgroundColor: "#7D7E84",
+                            transform: [
+                                {
+                                    translateY: Animated.multiply(
+                                        indicator,
+                                        scrollViewVisibleHeight /
+                                            scrollViewWholeHeight
+                                    ).interpolate({
+                                        inputRange: [0, difference],
+                                        outputRange: [0, difference],
+                                        extrapolate: "clamp",
+                                    }),
+                                },
+                            ],
                         }}
                     />
                 </View>
@@ -209,31 +416,52 @@ const BookDetail = ({route,navigation}) => {
                     showsVerticalScrollIndicator={false}
                     scrollEventThrottle={16}
                     onContentSizeChange={(width, height) => {
-                        setScrollViewWholeHeight(height)
+                        setScrollViewWholeHeight(height);
                     }}
-                    onLayout={({ nativeEvent: { layout: { x, y, width, height } } }) => {
-                        setScrollViewVisibleHeight(height)
+                    onLayout={({
+                        nativeEvent: {
+                            layout: { x, y, width, height },
+                        },
+                    }) => {
+                        setScrollViewVisibleHeight(height);
                     }}
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: indicator } } }],
                         { useNativeDriver: false }
                     )}
                 >
-                    <Text style={{ fontSize: 22, lineHeight: 30, color: "#FFFFFF", marginBottom: 24 }}>Description</Text>
-                    <Text style={{ fontSize: 20, lineHeight: 30, color: "#64676D" }}>{book.description}</Text>
+                    <Text
+                        style={{
+                            fontSize: 22,
+                            lineHeight: 30,
+                            color: "#FFFFFF",
+                            marginBottom: 24,
+                        }}
+                    >
+                        Description
+                    </Text>
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            lineHeight: 30,
+                            color: "#64676D",
+                        }}
+                    >
+                        {book.description}
+                    </Text>
                 </ScrollView>
             </View>
-        )
+        );
     }
 
-    const renderBottomButton = (item,index) => {
-        useEffect( () => {
-            stt == true ? setColorDL("#62b35d") : setColorDL("#EFEFF0")
-            console.log(stt)
-            console.log(colorDL)
-        },[colorDL]);
+    const renderBottomButton = (item, index) => {
+        useEffect(() => {
+            stt == true ? setColorDL("#62b35d") : setColorDL("#EFEFF0");
+            console.log(stt);
+            console.log(colorDL);
+        }, [colorDL]);
         return (
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, flexDirection: "row" }}>
                 {/* Bookmark */}
                 <TouchableOpacity
                     style={{
@@ -242,19 +470,40 @@ const BookDetail = ({route,navigation}) => {
                         marginLeft: 24,
                         marginVertical: 8,
                         borderRadius: 12,
-                        alignItems: 'center',
-                        justifyContent: 'center'
+                        alignItems: "center",
+                        justifyContent: "center",
                     }}
+                    onPress={async () => {
+                        DownloadBook();
+
+                        const uri =
+                            "http://www.africau.edu/images/default/sample.pdf";
+                        const filename = `check3.pdf`;
+                        await downloadToFolder(
+                            uri,
+                            filename,
+                            "Download",
+                            channelId,
+                            {
+                                downloadProgressCallback:
+                                    downloadProgressUpdater,
+                            }
+                        );
+                    }}
+<<<<<<< HEAD
                     onPress={ () => {
                         DownloadBook()
                         setColorDL("#62b35d")
                         }
                     }
+=======
+>>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
                 >
                     <Ionicons
                         name="download-outline"
                         resizeMode="contain"
-                        size={35} color={colorDL} //#62b35d downloaded
+                        size={35}
+                        color={colorDL} //#62b35d downloaded
                     />
                 </TouchableOpacity>
 
@@ -266,39 +515,44 @@ const BookDetail = ({route,navigation}) => {
                         marginHorizontal: 8,
                         marginVertical: 8,
                         borderRadius: 12,
-                        alignItems: 'center',
-                        justifyContent: 'center'
+                        alignItems: "center",
+                        justifyContent: "center",
                     }}
+<<<<<<< HEAD
                     onPress={() => navigation.navigate("ReadBook",book)}
+=======
+                    onPress={() => navigation.navigate("ReadBook", { i: item })}
+>>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
                 >
-                    <Text style={{ fontSize: 16, lineHeight: 22, color: "#FFFFFF" }}>Start Reading</Text>
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            lineHeight: 22,
+                            color: "#FFFFFF",
+                        }}
+                    >
+                        Start Reading
+                    </Text>
                 </TouchableOpacity>
             </View>
-        )
-    }
-    
-    if(book){
-        return(
-            <View style={{ flex: 1, backgroundColor: "black" }}>
-            {/* Book Cover Section */}
-            <View style={{ flex: 4 }}>
-                {renderBookInfoSection()}
-            </View>
-             {/* Description */}
-             <View style={{ flex: 2 }}>
-                    {renderBookDescription()}
-            </View>
-            <View style={{ height: 70, marginBottom: 0 }}>
-                    {renderBottomButton()}
-            </View>
-        </View>
-        )    
-    }
-    else{
-        return(
-            <></>
-        )
-    }
-}
+        );
+    };
 
-export default {BookDetail,readBook};
+    if (book) {
+        return (
+            <View style={{ flex: 1, backgroundColor: "black" }}>
+                {/* Book Cover Section */}
+                <View style={{ flex: 4 }}>{renderBookInfoSection()}</View>
+                {/* Description */}
+                <View style={{ flex: 2 }}>{renderBookDescription()}</View>
+                <View style={{ height: 70, marginBottom: 0 }}>
+                    {renderBottomButton()}
+                </View>
+            </View>
+        );
+    } else {
+        return <></>;
+    }
+};
+
+export default { BookDetail, readBook };
