@@ -3,9 +3,7 @@ import React, { useState, useEffect } from "react";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 
-<<<<<<< HEAD
 // const [books,setBooks] = useState()
-=======
 import {
     StyleSheet,
     Text,
@@ -33,7 +31,6 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { ProgressBar, Colors, Searchbar } from "react-native-paper";
 import { WebView } from "react-native-webview";
 import { createStackNavigator } from "@react-navigation/stack";
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
 
 const Dev_Height = Dimensions.get("window").height;
 const Dev_width = Dimensions.get("window").width;
@@ -52,7 +49,6 @@ const LineDivider = () => {
     );
 };
 //ok
-<<<<<<< HEAD
 const readBook =({route,navigation}) => {
     const book = route.params;
     return(
@@ -61,7 +57,6 @@ const readBook =({route,navigation}) => {
   }
 const BookDetail = ({route,navigation}) => {
     const [colorDL,setColorDL] = useState("#EFEFF0")
-=======
 const readBook = ({ route, navigation }) => {
     const { book } = route.params;
     return alert(book.uri), (<WebView source={{ uri: book.uri }} />);
@@ -76,16 +71,13 @@ Notifications.setNotificationHandler({
 
 const BookDetail = ({ route, navigation }) => {
     const [colorDL, setColorDL] = useState("#EFEFF0");
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
     const [scrollViewWholeHeight, setScrollViewWholeHeight] = React.useState(1);
     const [scrollViewVisibleHeight, setScrollViewVisibleHeight] =
         React.useState(0);
     const { book } = route.params;
     const indicator = new Animated.Value(0);
-<<<<<<< HEAD
     const [stt,setStt] = useState(book.status)
     console.log(book.status)
-=======
     const [stt, setStt] = useState(book.status);
     const channelId = "DownloadInfo";
 
@@ -95,7 +87,7 @@ const BookDetail = ({ route, navigation }) => {
 
         // if we didn't find a notification channel set how we like it, then we create one
         if (loadingChannel == null) {
-            const channelOptions: NotificationChannelInput = {
+            const channelOptions: NotificationChannelInput = 
                 name: channelId,
                 importance: AndroidImportance.HIGH,
                 lockscreenVisibility: AndroidNotificationVisibility.PUBLIC,
@@ -143,20 +135,16 @@ const BookDetail = ({ route, navigation }) => {
     useEffect(() => {
         getNotificationPermissions();
     });
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
     function DownloadBook() {
         const download = async () => {
-<<<<<<< HEAD
             fetch('http:192.168.8.102:5000/api/book/download',{
                 method : "POST",
                 headers : {
-                    "Content-Type" : "application/json"
-=======
+                    "Content-Type" : "application/json",
             fetch("http:172.20.10.2:5000/api/book/download", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
                 },
                 body: JSON.stringify({
                     title: book.title1,
@@ -490,14 +478,11 @@ const BookDetail = ({ route, navigation }) => {
                             }
                         );
                     }}
-<<<<<<< HEAD
                     onPress={ () => {
                         DownloadBook()
                         setColorDL("#62b35d")
                         }
                     }
-=======
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
                 >
                     <Ionicons
                         name="download-outline"
@@ -518,11 +503,8 @@ const BookDetail = ({ route, navigation }) => {
                         alignItems: "center",
                         justifyContent: "center",
                     }}
-<<<<<<< HEAD
                     onPress={() => navigation.navigate("ReadBook",book)}
-=======
                     onPress={() => navigation.navigate("ReadBook", { i: item })}
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
                 >
                     <Text
                         style={{

@@ -43,7 +43,7 @@ class SearchBar extends React.Component{
     componentDidUpdate(){
         if(this.state.items == null){
             const getItem=()=>{
-                fetch('http:192.168.8.102:5000/api/book/autocomplete',{
+                fetch('http:192.168.8.100:5000/api/book/autocomplete',{
                     method : "POST",
                     headers : {
                         'Accept': 'application/json',

@@ -85,7 +85,7 @@ class Home extends React.Component {
   }
 componentDidMount(){
   const getItem=()=>{
-    fetch('http:192.168.8.102:5000/api/book/show')
+    fetch('http:192.168.8.100:5000/api/book/show')
       .then((res)=>res.json())
       .then((data)=>{
         // console.log(data)
