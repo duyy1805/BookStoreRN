@@ -10,6 +10,7 @@ import {
     Image,
     TouchableHighlight,
     ScrollView,
+    ImageBackground,
     TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -42,7 +43,7 @@ class SearchBar extends React.Component{
     componentDidUpdate(){
         if(this.state.items == null){
             const getItem=()=>{
-                fetch('http:192.168.8.100:5000/api/book/autocomplete',{
+                fetch('http:192.168.8.102:5000/api/book/autocomplete',{
                     method : "POST",
                     headers : {
                         'Accept': 'application/json',
@@ -65,10 +66,17 @@ class SearchBar extends React.Component{
     }
       _render_item = ({item,index}) => {
         return(
-          <TouchableOpacity style={styles.search_item} onPress = {() => this.props.navigation.navigate("BookDetail", {book : item})}>
-            <Icon style={styles.item_icon} name="search" size={16} color="#cccccc" />
-            <Text>{item.title1}</Text>   
-          </TouchableOpacity>
+            <View style={{ flexDirection:"row", width:"100%"}}>
+                <View style= {{height:"100%", width:"20%",marginLeft:"7%",marginTop:40,marginBottom:40}}>
+                    <TouchableOpacity style={styles.search_item} onPress = {() => this.props.navigation.navigate("BookDetail", {book : item})}>
+                        <ImageBackground source={{uri:item.image}} imageStyle={{borderRadius:15}} style={{height:100,width:"100%"}}/>       
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <Text style={{fontWeight:"bold", fontSize:20, marginLeft:"10%", marginTop:"5%"}}>{item.title1}</Text>
+                    <Text style={{marginLeft:"10%", marginTop:"5%"}}>{item.author}</Text>
+                </View>
+            </View>
         )
       }
 
@@ -90,7 +98,7 @@ class SearchBar extends React.Component{
         // content 
         const content_translate_y_config = {
             duration : 0,
-            toValue:  10,
+            toValue:  0,
             easing: Easing.inOut(Easing.ease)
         }
         const content_opacity_config = {
@@ -196,6 +204,7 @@ class SearchBar extends React.Component{
                     <SafeAreaView style={styles.content_safe_area}>
                         <View style={styles.content_inner}>
                             <View style={styles.separator} />
+                            <View style ={{height : 610}}>
                             {
                                 this.state.keyword === ''
                                 ?
@@ -209,16 +218,19 @@ class SearchBar extends React.Component{
                                         </Text> 
                                     </View>
                                 :
+                                    <View style={{height: 610}}>
                                     <FlatList 
                                     data={this.state.items}
                                     renderItem={this._render_item}
                                     keyExtractor={item => item._id.toString()}
                                     style={{marginLeft:"7%", height:300,width:"100%",marginTop:10}}
                                     ItemSeparatorComponent={
-                                    () => <View style={{width:"30%",height:20}}/>
+                                    () => <View style={{width:"30%",height:50}}/>
                                     }
-                                />
+                                    />
+                                    </View>
                             }
+                        </View>
                         </View>
                     </SafeAreaView>
                 </Animated.View>
@@ -326,7 +338,7 @@ const styles = StyleSheet.create({
     },
     image_placeholder:{
         width:150,
-        height:190,
+        height:180,
         alignSelf:"center"
     },
     image_placeholder_text:{

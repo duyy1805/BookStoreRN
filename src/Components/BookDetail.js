@@ -13,6 +13,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Dev_Height = Dimensions.get('window').height
 const Dev_width = Dimensions.get('window').width
 
+// const [books,setBooks] = useState()
 
 
 const LineDivider = () => {
@@ -24,9 +25,8 @@ const LineDivider = () => {
 }
 //ok
 const readBook =({route,navigation}) => {
-    const {book} = route.params;
+    const book = route.params;
     return(
-    alert(book.uri),
     <WebView source={{ uri: book.uri}} />
     )
   }
@@ -37,12 +37,12 @@ const BookDetail = ({route,navigation}) => {
     const {book} = route.params;
     const indicator = new Animated.Value(0);
     const [stt,setStt] = useState(book.status)
-
+    console.log(book.status)
     function DownloadBook() {
         // const {book} = route.params;
         // console.log(book.status)
         const download = async () => {
-            fetch('http:192.168.8.100:5000/api/book/download',{
+            fetch('http:192.168.8.102:5000/api/book/download',{
                 method : "POST",
                 headers : {
                     "Content-Type" : "application/json"
@@ -247,7 +247,6 @@ const BookDetail = ({route,navigation}) => {
                     }}
                     onPress={ () => {
                         DownloadBook()
-                        // console.log("sau")
                         setColorDL("#62b35d")
                         }
                     }
@@ -270,7 +269,7 @@ const BookDetail = ({route,navigation}) => {
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}
-                    onPress={() => navigation.navigate("ReadBook",{i : item})}
+                    onPress={() => navigation.navigate("ReadBook",book)}
                 >
                     <Text style={{ fontSize: 16, lineHeight: 22, color: "#FFFFFF" }}>Start Reading</Text>
                 </TouchableOpacity>

@@ -25,7 +25,7 @@ class Library extends React.Component {
     }
   }
   getItem=()=>{
-    fetch('http:192.168.8.100:5000/api/book/show/downloaded')
+    fetch('http:192.168.8.102:5000/api/book/show/downloaded')
       .then((res)=>res.json())
       .then((data)=>{
         // console.log(data)
