@@ -2,10 +2,9 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
-
-<<<<<<< HEAD
 // const [books,setBooks] = useState()
-=======
+import Params from "../API/Params";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     StyleSheet,
     Text,
@@ -33,7 +32,7 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { ProgressBar, Colors, Searchbar } from "react-native-paper";
 import { WebView } from "react-native-webview";
 import { createStackNavigator } from "@react-navigation/stack";
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
+import { Popup, Toast, Root } from "popup-ui";
 
 const Dev_Height = Dimensions.get("window").height;
 const Dev_width = Dimensions.get("window").width;
@@ -52,19 +51,10 @@ const LineDivider = () => {
     );
 };
 //ok
-<<<<<<< HEAD
-const readBook =({route,navigation}) => {
-    const book = route.params;
-    return(
-    <WebView source={{ uri: book.uri}} />
-    )
-  }
-const BookDetail = ({route,navigation}) => {
-    const [colorDL,setColorDL] = useState("#EFEFF0")
-=======
+
 const readBook = ({ route, navigation }) => {
-    const { book } = route.params;
-    return alert(book.uri), (<WebView source={{ uri: book.uri }} />);
+    const book = route.params;
+    return <WebView source={{ uri: book.uri }} />;
 };
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -76,17 +66,15 @@ Notifications.setNotificationHandler({
 
 const BookDetail = ({ route, navigation }) => {
     const [colorDL, setColorDL] = useState("#EFEFF0");
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
+
     const [scrollViewWholeHeight, setScrollViewWholeHeight] = React.useState(1);
     const [scrollViewVisibleHeight, setScrollViewVisibleHeight] =
         React.useState(0);
     const { book } = route.params;
     const indicator = new Animated.Value(0);
-<<<<<<< HEAD
-    const [stt,setStt] = useState(book.status)
-    console.log(book.status)
-=======
+
     const [stt, setStt] = useState(book.status);
+
     const channelId = "DownloadInfo";
 
     async function setNotificationChannel() {
@@ -133,7 +121,7 @@ const BookDetail = ({ route, navigation }) => {
         totalBytesExpectedToWrite: number,
     }) => {
         const pctg = 100 * (totalBytesWritten / totalBytesExpectedToWrite);
-        // setDownloadProgress(`${pctg.toFixed(0)}%`);
+        // setDownloadProgress(${pctg.toFixed(0)}%);
     };
 
     useEffect(() => {
@@ -143,20 +131,12 @@ const BookDetail = ({ route, navigation }) => {
     useEffect(() => {
         getNotificationPermissions();
     });
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
     function DownloadBook() {
         const download = async () => {
-<<<<<<< HEAD
-            fetch('http:192.168.8.102:5000/api/book/download',{
-                method : "POST",
-                headers : {
-                    "Content-Type" : "application/json"
-=======
-            fetch("http:172.20.10.2:5000/api/book/download", {
+            fetch("http:172.20.10.3:5000/api/book/download", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
                 },
                 body: JSON.stringify({
                     title: book.title1,
@@ -210,7 +190,7 @@ const BookDetail = ({ route, navigation }) => {
                         right: 0,
                         bottom: 0,
                         left: 0,
-                        backgroundColor: "rgba(240,240,232,0.8)",
+                        backgroundColor: "rgba(240,240,232,0.😎",
                     }}
                 ></View>
 
@@ -461,94 +441,121 @@ const BookDetail = ({ route, navigation }) => {
             console.log(colorDL);
         }, [colorDL]);
         return (
-            <View style={{ flex: 1, flexDirection: "row" }}>
-                {/* Bookmark */}
-                <TouchableOpacity
-                    style={{
-                        width: 60,
-                        backgroundColor: "#25282F",
-                        marginLeft: 24,
-                        marginVertical: 8,
-                        borderRadius: 12,
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                    onPress={async () => {
-                        DownloadBook();
+            <Params.Consumer>
+                {(context) => (
+                    <Root>
+                        <View style={{ flex: 1, flexDirection: "row" }}>
+                            {/* Bookmark */}
+                            <TouchableOpacity
+                                style={{
+                                    width: 60,
+                                    backgroundColor: "#25282F",
+                                    marginLeft: 24,
+                                    marginVertical: 8,
+                                    borderRadius: 12,
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}
+                                onPress={async () => {
+                                    if (context != "") {
+                                        DownloadBook();
+                                        Toast.show({
+                                            title: "Đang tải sách",
+                                            // text: "Đang tải sách",
+                                            color: "#2ecc71",
+                                            timing: 4000,
+                                            // icon: (
+                                            //     <Image
+                                            //         source={require("./assets/tick.png")}
+                                            //         style={{
+                                            //             width: 25,
+                                            //             height: 25,
+                                            //         }}
+                                            //         resizeMode="contain"
+                                            //     />
+                                        });
+                                        const uri =
+                                            "http://www.africau.edu/images/default/sample.pdf";
+                                        const filename = `check3.pdf`;
+                                        await downloadToFolder(
+                                            uri,
+                                            filename,
+                                            "Download",
+                                            // channelId,
+                                            {
+                                                downloadProgressCallback:
+                                                    downloadProgressUpdater,
+                                            }
+                                        );
+                                        setColorDL("#62b35d");
+                                    } else {
+                                        Popup.show({
+                                            type: "Warning",
+                                            title: "",
+                                            button: true,
+                                            buttonText: "Oke",
+                                            textBody:
+                                                "Vui lòng đăng nhập để tải sách",
 
-                        const uri =
-                            "http://www.africau.edu/images/default/sample.pdf";
-                        const filename = `check3.pdf`;
-                        await downloadToFolder(
-                            uri,
-                            filename,
-                            "Download",
-                            channelId,
-                            {
-                                downloadProgressCallback:
-                                    downloadProgressUpdater,
-                            }
-                        );
-                    }}
-<<<<<<< HEAD
-                    onPress={ () => {
-                        DownloadBook()
-                        setColorDL("#62b35d")
-                        }
-                    }
-=======
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
-                >
-                    <Ionicons
-                        name="download-outline"
-                        resizeMode="contain"
-                        size={35}
-                        color={colorDL} //#62b35d downloaded
-                    />
-                </TouchableOpacity>
+                                            callback: () => Popup.hide(),
+                                        });
+                                    }
+                                }}
+                            >
+                                <Ionicons
+                                    name="download-outline"
+                                    resizeMode="contain"
+                                    size={35}
+                                    color={colorDL} //#62b35d downloaded
+                                />
+                            </TouchableOpacity>
 
-                {/* Start Reading */}
-                <TouchableOpacity
-                    style={{
-                        flex: 1,
-                        backgroundColor: "#F96D41",
-                        marginHorizontal: 8,
-                        marginVertical: 8,
-                        borderRadius: 12,
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-<<<<<<< HEAD
-                    onPress={() => navigation.navigate("ReadBook",book)}
-=======
-                    onPress={() => navigation.navigate("ReadBook", { i: item })}
->>>>>>> 6ce65a4cffa944f1bdf0486effd28799bf4b2d66
-                >
-                    <Text
-                        style={{
-                            fontSize: 16,
-                            lineHeight: 22,
-                            color: "#FFFFFF",
-                        }}
-                    >
-                        Start Reading
-                    </Text>
-                </TouchableOpacity>
-            </View>
+                            {/* Start Reading */}
+                            <TouchableOpacity
+                                style={{
+                                    flex: 1,
+                                    backgroundColor: "#F96D41",
+                                    marginHorizontal: 8,
+                                    marginVertical: 8,
+                                    borderRadius: 12,
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}
+                                onPress={() =>
+                                    navigation.navigate("ReadBook", book)
+                                }
+                                // onPress={() => navigation.navigate("ReadBook", { i: item })}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 16,
+                                        lineHeight: 22,
+                                        color: "#FFFFFF",
+                                    }}
+                                >
+                                    Start Reading
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Root>
+                )}
+            </Params.Consumer>
         );
     };
 
     if (book) {
         return (
-            <View style={{ flex: 1, backgroundColor: "black" }}>
-                {/* Book Cover Section */}
-                <View style={{ flex: 4 }}>{renderBookInfoSection()}</View>
-                {/* Description */}
-                <View style={{ flex: 2 }}>{renderBookDescription()}</View>
-                <View style={{ height: 70, marginBottom: 0 }}>
-                    {renderBottomButton()}
+            <Root>
+                <View style={{ flex: 1, backgroundColor: "black" }}>
+                    {/* Book Cover Section */}
+                    <View style={{ flex: 4 }}>{renderBookInfoSection()}</View>
+                    {/* Description */}
+                    <View style={{ flex: 2 }}>{renderBookDescription()}</View>
+                    <View style={{ height: 70, marginBottom: 0 }}>
+                        {renderBottomButton()}
+                    </View>
                 </View>
-            </View>
+            </Root>
         );
     } else {
         return <></>;
