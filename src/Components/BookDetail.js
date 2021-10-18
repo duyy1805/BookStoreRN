@@ -2,9 +2,14 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
+<<<<<<< HEAD
 // const [books,setBooks] = useState()
 import Params from "../API/Params";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+=======
+
+// const [books,setBooks] = useState()
+>>>>>>> 6fb911a424f6a82bc92689fa579c482e9e18d06b
 import {
     StyleSheet,
     Text,
@@ -32,7 +37,10 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { ProgressBar, Colors, Searchbar } from "react-native-paper";
 import { WebView } from "react-native-webview";
 import { createStackNavigator } from "@react-navigation/stack";
+<<<<<<< HEAD
 import { Popup, Toast, Root } from "popup-ui";
+=======
+>>>>>>> 6fb911a424f6a82bc92689fa579c482e9e18d06b
 
 const Dev_Height = Dimensions.get("window").height;
 const Dev_width = Dimensions.get("window").width;
@@ -51,7 +59,18 @@ const LineDivider = () => {
     );
 };
 //ok
+<<<<<<< HEAD
 
+=======
+const readBook =({route,navigation}) => {
+    const book = route.params;
+    return(
+    <WebView source={{ uri: book.uri}} />
+    )
+  }
+const BookDetail = ({route,navigation}) => {
+    const [colorDL,setColorDL] = useState("#EFEFF0")
+>>>>>>> 6fb911a424f6a82bc92689fa579c482e9e18d06b
 const readBook = ({ route, navigation }) => {
     const book = route.params;
     return <WebView source={{ uri: book.uri }} />;
@@ -66,13 +85,21 @@ Notifications.setNotificationHandler({
 
 const BookDetail = ({ route, navigation }) => {
     const [colorDL, setColorDL] = useState("#EFEFF0");
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6fb911a424f6a82bc92689fa579c482e9e18d06b
     const [scrollViewWholeHeight, setScrollViewWholeHeight] = React.useState(1);
     const [scrollViewVisibleHeight, setScrollViewVisibleHeight] =
         React.useState(0);
     const { book } = route.params;
     const indicator = new Animated.Value(0);
+<<<<<<< HEAD
 
+=======
+    const [stt,setStt] = useState(book.status)
+    console.log(book.status)
+>>>>>>> 6fb911a424f6a82bc92689fa579c482e9e18d06b
     const [stt, setStt] = useState(book.status);
 
     const channelId = "DownloadInfo";
@@ -83,7 +110,7 @@ const BookDetail = ({ route, navigation }) => {
 
         // if we didn't find a notification channel set how we like it, then we create one
         if (loadingChannel == null) {
-            const channelOptions: NotificationChannelInput = {
+            const channelOptions: NotificationChannelInput = 
                 name: channelId,
                 importance: AndroidImportance.HIGH,
                 lockscreenVisibility: AndroidNotificationVisibility.PUBLIC,
@@ -133,7 +160,15 @@ const BookDetail = ({ route, navigation }) => {
     });
     function DownloadBook() {
         const download = async () => {
+<<<<<<< HEAD
             fetch("http:172.20.10.3:5000/api/book/download", {
+=======
+            fetch('http:192.168.8.102:5000/api/book/download',{
+                method : "POST",
+                headers : {
+                    "Content-Type" : "application/json",
+            fetch("http:172.20.10.2:5000/api/book/download", {
+>>>>>>> 6fb911a424f6a82bc92689fa579c482e9e18d06b
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -441,6 +476,7 @@ const BookDetail = ({ route, navigation }) => {
             console.log(colorDL);
         }, [colorDL]);
         return (
+<<<<<<< HEAD
             <Params.Consumer>
                 {(context) => (
                     <Root>
@@ -540,6 +576,76 @@ const BookDetail = ({ route, navigation }) => {
                     </Root>
                 )}
             </Params.Consumer>
+=======
+            <View style={{ flex: 1, flexDirection: "row" }}>
+                {/* Bookmark */}
+                <TouchableOpacity
+                    style={{
+                        width: 60,
+                        backgroundColor: "#25282F",
+                        marginLeft: 24,
+                        marginVertical: 8,
+                        borderRadius: 12,
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                    onPress={async () => {
+                        DownloadBook();
+
+                        const uri =
+                            "http://www.africau.edu/images/default/sample.pdf";
+                        const filename = `check3.pdf`;
+                        await downloadToFolder(
+                            uri,
+                            filename,
+                            "Download",
+                            channelId,
+                            {
+                                downloadProgressCallback:
+                                    downloadProgressUpdater,
+                            }
+                        );
+                    }}
+                    onPress={ () => {
+                        DownloadBook()
+                        setColorDL("#62b35d")
+                        }
+                    }
+                >
+                    <Ionicons
+                        name="download-outline"
+                        resizeMode="contain"
+                        size={35}
+                        color={colorDL} //#62b35d downloaded
+                    />
+                </TouchableOpacity>
+
+                {/* Start Reading */}
+                <TouchableOpacity
+                    style={{
+                        flex: 1,
+                        backgroundColor: "#F96D41",
+                        marginHorizontal: 8,
+                        marginVertical: 8,
+                        borderRadius: 12,
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                    onPress={() => navigation.navigate("ReadBook",book)}
+                    onPress={() => navigation.navigate("ReadBook", { i: item })}
+                >
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            lineHeight: 22,
+                            color: "#FFFFFF",
+                        }}
+                    >
+                        Start Reading
+                    </Text>
+                </TouchableOpacity>
+            </View>
+>>>>>>> 6fb911a424f6a82bc92689fa579c482e9e18d06b
         );
     };
 

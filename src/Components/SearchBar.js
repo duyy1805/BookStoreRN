@@ -39,6 +39,7 @@ class SearchBar extends React.Component {
         this._content_translate_y = new Value(height);
         this._content_opacity = new Value(0);
     }
+<<<<<<< HEAD
     componentDidUpdate() {
         if (this.state.items == null) {
             const getItem = () => {
@@ -47,6 +48,16 @@ class SearchBar extends React.Component {
                     headers: {
                         Accept: "application/json",
                         "Content-Type": "application/json",
+=======
+    componentDidUpdate(){
+        if(this.state.items == null){
+            const getItem=()=>{
+                fetch('http:192.168.8.100:5000/api/book/autocomplete',{
+                    method : "POST",
+                    headers : {
+                        'Accept': 'application/json',
+                        "Content-Type" : "application/json"
+>>>>>>> 6fb911a424f6a82bc92689fa579c482e9e18d06b
                     },
                     body: JSON.stringify({
                         title: this.state.keyword,

@@ -139,6 +139,7 @@ class Home extends React.Component {
         );
     };
 
+<<<<<<< HEAD
     _render_item2 = ({ item, index }) => {
         return (
             <View style={{ flexDirection: "row", width: "100%" }}>
@@ -186,6 +187,66 @@ class Home extends React.Component {
             </View>
         );
     };
+=======
+    //       Dù rằng MIhira đang mang thai trong người nhưng đôi vợ chồng vẫn không hề lùi bước. Cuối cùng khi Runeterra đã chạm đến thiên giới, Kilam đã vô cùng ngạc nhiên khi Mihira được lựa chọn làm vật chủ cho Thượng Nhân Công lý. Họ quay về bộ tộc với sức mạnh mà họ đã tìm thấy và sự ra đời cặp song sinh - Morgana và Kayle. Dù vậy, quyền năng thượng giới trong Mihira bắt đầu thay đổi con người phàm trần cũng như tình yêu thương của bà. Bà thường phó mặc hai đứa con gái cho người cha, và rời đi để đáp lại tiếng gọi của chiến trận.`,
+    //       uri:"https://img.wattpad.com/4b7c49778cb165f86b718916782fbb737ae53e2b/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f4941436155554138655a345551513d3d2d3837353730343038332e313630616136313635333931393335663734323436363734373938362e6a7067"
+    //     },
+    //     {
+    //       title1: "Long tộc",
+    //       title2: "Heimerdinger",
+    //       id:4,
+    //       rating:4.8,
+    //       language: 'English',
+    //       description:"",
+    //       uri:"https://lh3.googleusercontent.com/proxy/WmosZVK4LDeFMeB1TPj-yix9wl4HV-shVwlqK2sg2Mmlp5EuBuU8Ok74f9TIw8ucu5jCemLTXyXMHCCMU24S1H6TE4orXAIhmHiRqY9S0evUdzom5KF4W7q-sy3WBoPkS4jEfjtfjNi6pBnDIYtlMts_dkdlB9ZqTLx1Uca-Mw"
+    //     },
+    //     {
+    //       title1: "Thần tài",
+    //       title2: "Tahm Kench tinh anh thần tài",
+    //       id:5,
+    //       rating:4,
+    //       language: 'English',
+    //       description:"",
+    //       uri:"https://lh3.googleusercontent.com/proxy/7XL6XZBXXF7ujB4WeXDmhL4bsl91hTRrCAoVbOinnPNonUocYg0dGraOS6sCZtg_GBz8Suw9Fe4Lrzbq92gj48IcScnfogH7j7fmWY_JKHvOd6i0D6fJNnZoCbvQ51yO8YigZUY1BH3XdkGtg2Xgl5Zub6IIdaP-Pg"
+    //     },
+    //     {
+    //       title1: "Dead is like a wind",
+    //       title2: "Yasuo",
+    //       id:6,
+    //       rating:4,
+    //       language: 'English',
+    //       description:"",
+    //       uri:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_25w8CXqZ_ntCxktCHE4qtlojdtS6zD9kODzSNR5X4_Uzq317xYv1EjdPLUT6oCfjkQ4&usqp=CAU"
+    //     }
+    //   ]
+    // }
+  }
+componentDidMount(){
+  const getItem=()=>{
+    fetch('http:192.168.8.100:5000/api/book/show')
+      .then((res)=>res.json())
+      .then((data)=>{
+        // console.log(data)
+        this.setState({
+          items:data
+        })
+      }
+    )
+  }
+  getItem();
+  
+};
+  _render_item = ({item,index}) => {
+    return(
+      <TouchableOpacity onPress = {() => this.props.navigation.navigate("BookDetail", { book : item })}>
+        <ImageBackground source= {{uri:item.image}} imageStyle={{borderRadius:25}} style={{height:"100%",width:140}}> 
+          <Text style={{marginTop:"100%",color:"#FFF",fontSize:15,marginLeft:10,fontWeight:"bold"}}>{item.title1}</Text>     
+          <Text style={{color:"#FFF",fontSize:14,marginLeft:10}}>{item.author}</Text>     
+        </ImageBackground>
+      </TouchableOpacity>
+    )
+  }
+>>>>>>> 6fb911a424f6a82bc92689fa579c482e9e18d06b
 
     render() {
         return (
