@@ -55,7 +55,9 @@ class Library extends React.Component {
 //     getItem();
 //   }
 // };
-
+  componentWillUnmount(){
+    this.setState.item = null;
+  }
   onRefresh = () => {
     //Clear old data of the list
     this.state.items = null
@@ -66,7 +68,7 @@ class Library extends React.Component {
   _render_item = ({item,index}) => {
     return(
       <TouchableOpacity onPress = {() => this.props.navigation.navigate("BookDetail", { book : item })}>
-        <ImageBackground source= {{uri:item.image}} imageStyle={{borderRadius:25}} style={{height:250,width:140,margin:10}}> 
+        <ImageBackground source= {{uri:item.image}} imageStyle={{borderRadius:25}} style={[styles.shadow,{height:250,width:140,margin:10}]}> 
           <Text style={{marginTop:"100%",color:"#FFF",fontSize:15,marginLeft:10,fontWeight:"bold"}}>{item.title1}</Text>     
           <Text style={{color:"#FFF",fontSize:14,marginLeft:10}}>{item.author}</Text>     
         </ImageBackground>
@@ -81,7 +83,16 @@ class Library extends React.Component {
       //   width : Dev_width
       // }}> 
       <>
-        <View style = {{ height : "15%", width: "100%",paddingTop:20,flexDirection: "row",justifyContent:'center',alignItems:"center",backgroundColor:"#FFFFFF"}}>
+        <ImageBackground source={{uri : "https://kenh14cdn.com/2020/9/25/hinh-nen-iphone-11-1600990116056809485952.jpg"}} style = {{position:'absolute',top:0, right:0,left:0,bottom:0}}/>
+        <View style={{
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0,
+                        backgroundColor: "rgba(240,240,232,0.3)",
+                    }}/>
+        <View style = {{ height : "15%", width: "100%",paddingTop:20,flexDirection: "row",justifyContent:'center',alignItems:"center",backgroundColor:"rgba(240,240,232,0.6)"}}>
           <Text style ={{fontSize:20,fontWeight:"bold"}}>Library</Text>
           {/* <TouchableOpacity onPress={() => this.setState({items: null})} style = {{marginLeft:"70%"}}>
                     <Ionicons name = "refresh-outline" size = {32} color= "#7FA1F8"/>
@@ -115,11 +126,7 @@ class Library extends React.Component {
 
 
 const Stack = createStackNavigator();
-const readBook =() => {
-  return(
-  <WebView source={{ uri: "https://reactnativemaster.com/wp-content/uploads/2020/02/React-native-document-viewer-pdf-sample.pdf" }} />
-  )
-}
+
 export default function MyStack() {
   return (
     <Stack.Navigator>
@@ -129,3 +136,15 @@ export default function MyStack() {
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+    shadowOpacity: 0.46,
+    shadowRadius: 4.65,
+  }
+})

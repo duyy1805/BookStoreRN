@@ -1,178 +1,179 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState,useEffect} from 'react';
-import { StyleSheet, Text, View,SafeAreaView,
-          Dimensions, TouchableOpacity,Button,
-          FlatList,Image,ImageBackground,NativeModules,Animated,ScrollView
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet, Text, View, SafeAreaView,
+  Dimensions, TouchableOpacity, Button,
+  FlatList, Image, ImageBackground, NativeModules, Animated, ScrollView
 } from 'react-native';
-import {WebView} from 'react-native-webview'
+import { LogBox } from 'react-native';
+import { WebView } from 'react-native-webview'
 import { NavigationContainer } from '@react-navigation/native';
-import {Ionicons, AntDesign} from "@expo/vector-icons"
+import { Ionicons, AntDesign } from "@expo/vector-icons"
+
+
 import B from './BookDetail'
 import Library from './Library'
-import { ProgressBar, Colors, Searchbar} from 'react-native-paper';
+import Background from "./component/Background";
+
+import { ProgressBar, Colors, Searchbar } from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
+
+
 const Dev_Height = Dimensions.get('window').height
 const Dev_width = Dimensions.get('window').width
- 
-class Home extends React.Component {
- 
-  constructor(props){
-    super(props);
-    this.state={
-      items:[]
-    }
-    // this.state=items;
-    // this.state={
-    //   items:[
-    //     {
-    //       title1: "Other world for home",
-    //       title2: "Jasmine warga",
-    //       id:1,
-    //       rating:4,
-    //       language: 'English',
-    //       description:"",
-    //       uri:"https://cdn.amightygirl.com/catalog/product/cache/1/image/602f0fa2c1f0d1ba5e241f914e856ff9/o/t/other_words.jpg"
-    //     },
-    //     {
-    //       title1: "Dead is like a wind",
-    //       title2: "Yasuo",
-    //       id:2,
-    //       rating:4,
-    //       language: 'English',
-    //       description:"",
-    //       uri:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_25w8CXqZ_ntCxktCHE4qtlojdtS6zD9kODzSNR5X4_Uzq317xYv1EjdPLUT6oCfjkQ4&usqp=CAU"
-    //     },
-    //     {
-    //       title1: "Đéo roll ra kayle d m nó",
-    //       title2: "Kayle top 8",
-    //       id:3,
-    //       rating:4.9,
-    //       language: 'English',
-    //       description:`Như 1 định mệnh, Morgana và người chị gái của cô Kayle được sinh ra trong 1 thế giới đầy xung đột. Cuộc chiến tranh Cổ Ngữ tàn khốc lan ra khắp vùng Valoran và Shurima, và có chiều hướng lan ra đỉnh núi Targon xa xôi. Cha mẹ của Morgana, Mihira và Kilam, khi nghe về nguồn sức mạnh thần thánh nơi đỉnh ngọn núi vĩ đại - đã không còn lựa chọn nào khác ngoài tham gia vào một chuyến hành trình đằng đẵng và gian khổ, với hi vọng cứu rỗi bộ tộc của mình.
 
-    //       Dù rằng MIhira đang mang thai trong người nhưng đôi vợ chồng vẫn không hề lùi bước. Cuối cùng khi Runeterra đã chạm đến thiên giới, Kilam đã vô cùng ngạc nhiên khi Mihira được lựa chọn làm vật chủ cho Thượng Nhân Công lý. Họ quay về bộ tộc với sức mạnh mà họ đã tìm thấy và sự ra đời cặp song sinh - Morgana và Kayle. Dù vậy, quyền năng thượng giới trong Mihira bắt đầu thay đổi con người phàm trần cũng như tình yêu thương của bà. Bà thường phó mặc hai đứa con gái cho người cha, và rời đi để đáp lại tiếng gọi của chiến trận.`,
-    //       uri:"https://img.wattpad.com/4b7c49778cb165f86b718916782fbb737ae53e2b/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f4941436155554138655a345551513d3d2d3837353730343038332e313630616136313635333931393335663734323436363734373938362e6a7067"
-    //     },
-    //     {
-    //       title1: "Long tộc",
-    //       title2: "Heimerdinger",
-    //       id:4,
-    //       rating:4.8,
-    //       language: 'English',
-    //       description:"",
-    //       uri:"https://lh3.googleusercontent.com/proxy/WmosZVK4LDeFMeB1TPj-yix9wl4HV-shVwlqK2sg2Mmlp5EuBuU8Ok74f9TIw8ucu5jCemLTXyXMHCCMU24S1H6TE4orXAIhmHiRqY9S0evUdzom5KF4W7q-sy3WBoPkS4jEfjtfjNi6pBnDIYtlMts_dkdlB9ZqTLx1Uca-Mw"
-    //     },
-    //     {
-    //       title1: "Thần tài",
-    //       title2: "Tahm Kench tinh anh thần tài",
-    //       id:5,
-    //       rating:4,
-    //       language: 'English',
-    //       description:"",
-    //       uri:"https://lh3.googleusercontent.com/proxy/7XL6XZBXXF7ujB4WeXDmhL4bsl91hTRrCAoVbOinnPNonUocYg0dGraOS6sCZtg_GBz8Suw9Fe4Lrzbq92gj48IcScnfogH7j7fmWY_JKHvOd6i0D6fJNnZoCbvQ51yO8YigZUY1BH3XdkGtg2Xgl5Zub6IIdaP-Pg"
-    //     },
-    //     {
-    //       title1: "Dead is like a wind",
-    //       title2: "Yasuo",
-    //       id:6,
-    //       rating:4,
-    //       language: 'English',
-    //       description:"",
-    //       uri:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_25w8CXqZ_ntCxktCHE4qtlojdtS6zD9kODzSNR5X4_Uzq317xYv1EjdPLUT6oCfjkQ4&usqp=CAU"
-    //     }
-    //   ]
-    // }
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+class Home extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: []
+    }
+    this.scrollY = new Animated.Value(0)
   }
-componentDidMount(){
-  const getItem=()=>{
-    fetch('http:192.168.8.100:5000/api/book/show')
-      .then((res)=>res.json())
-      .then((data)=>{
-        // console.log(data)
-        this.setState({
-          items:data
-        })
-      }
-    )
-  }
-  getItem();
-  
-};
-  _render_item = ({item,index}) => {
-    return(
-      <TouchableOpacity onPress = {() => this.props.navigation.navigate("BookDetail", { book : item })}>
-        <ImageBackground source= {{uri:item.image}} imageStyle={{borderRadius:25}} style={{height:"100%",width:140}}> 
-          <Text style={{marginTop:"100%",color:"#FFF",fontSize:15,marginLeft:10,fontWeight:"bold"}}>{item.title1}</Text>     
-          <Text style={{color:"#FFF",fontSize:14,marginLeft:10}}>{item.author}</Text>     
+  getGreeting = () => {
+    const hours = (new Date()).getHours();
+    if (hours < 12) {
+      return 'Good Morning';
+    }
+    if (hours >= 12 && hours <= 17) {
+      return 'Good Afternoon';
+    }
+    return 'Good Evening';
+  };
+
+  componentDidMount() {
+    const getItem = () => {
+      fetch('http:192.168.8.102:5000/api/book/show')
+        .then((res) => res.json())
+        .then((data) => {
+          // console.log(data)
+          this.setState({
+            items: data
+          })
+        }
+        )
+    }
+    getItem();
+  };
+  _render_item = ({ item, index }) => {
+    return (
+      <TouchableOpacity onPress={() => this.props.navigation.navigate("BookDetail", { book: item })}>
+        <ImageBackground source={{ uri: item.image }} imageStyle={{ borderRadius: 25 }}
+          style={[styles.shadow, {
+            height: "97%", width: 140
+          }]}>
+          <Text style={[styles.shadowText, { marginTop: "100%", color: "#FFF", fontSize: 15, marginLeft: 10, fontWeight: "bold" }]}>{item.title1}</Text>
+          <Text style={[styles.shadowText, { color: "#FFF", fontSize: 14, marginLeft: 10 }]}>{item.author}</Text>
         </ImageBackground>
       </TouchableOpacity>
     )
   }
 
-  _render_item2 = ({item,index}) => {
-    return(
-      <View style={{ flexDirection:"row", width:"100%"}}>
-        <View style= {{height:"100%", width:"20%",marginLeft:"7%"}}>
-          <TouchableOpacity onPress = {() => this.props.navigation.navigate("BookDetail", { book : item })}>
-            <ImageBackground source={{uri:item.image}} imageStyle={{borderRadius:15}} style={{height:100,width:"100%"}}/>
+  _render_item2 = ({ item, index }) => {
+    const scale = this.scrollY.interpolate({
+      inputRange: [
+        -1, 0,
+        120 * index,
+        120 * (index+2)
+      ],
+      outputRange: [1, 1, 1, 0]
+    })
+    return (
+      <Animated.View style={{ flexDirection: "row", width: "100%", transform: [{ scale }] }}>
+        <View style={{ height: "100%", width: "20%", marginLeft: "7%", }}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("BookDetail", { book: item })}>
+            <ImageBackground source={{ uri: item.image }} imageStyle={{ borderRadius: 15 }} style={[styles.shadow, { height: 100, width: "100%" }]} />
           </TouchableOpacity>
-        </View>
+        </View >
         <View>
-          <Text style={{fontWeight:"bold", fontSize:20, marginLeft:"10%", marginTop:"5%"}}>{item.title1}</Text>
-          <Text style={{marginLeft:"10%", marginTop:"5%"}}>{item.author}</Text>
-          <ProgressBar style={{height:3, width:100,marginLeft:"13%",marginTop:"8%"}} progress = {0.1}/>
+          <View style={{ width: 250 }}>
+            <Text style={[styles.shadow, { fontWeight: "bold", fontSize: 20, marginLeft: "10%", marginTop: "5%" }]}>{item.title1}</Text>
+            <Text style={{ marginLeft: "10%", marginTop: "5%" }}>{item.author}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <ProgressBar style={{ height: 3, width: 100, marginLeft: "15%", marginTop: "8%" }} progress={0.73} />
+              <Text style={{ marginRight: " 5%" }}>{item.rating}</Text>
+              <Ionicons name="star" size={20} color="#ffc107" style={{ bottom: 5 }} />
+            </View>
+          </View>
+          <View style={{ bottom: -2, height: 1, backgroundColor: '#e6e4eb', width: 230, marginLeft: 6, position: 'absolute' }} />
         </View>
-      </View>
+      </Animated.View>
+
     )
   }
 
-  render(){
+  render() {
+    var ran = JSON.parse(JSON.stringify(this.state.items));
+    ran.sort(() => Math.random() - 0.5);
     return (
-      
-      <SafeAreaView style = {{
-        height : Dev_Height,
-        width : Dev_width
-      }}> 
-        <View style = {{ height : "7%", width: "100%",flexDirection: "row", alignItems:"center",marginTop:"5%"}}>
-          <TouchableOpacity style = {{marginLeft:"6%"}}>
-                    <Ionicons name = "ios-menu" size = {32} color= "#7FA1F8"/>
-          </TouchableOpacity>
-          <TouchableOpacity style = {{marginLeft:"70%"}}>
-                    <Ionicons name = "refresh-outline" size = {32} color= "#7FA1F8"/>
-          </TouchableOpacity>
-        </View>
+      <>
+        <ImageBackground source={{ uri: "https://kenh14cdn.com/2020/9/25/hinh-nen-iphone-11-1600990116056809485952.jpg" }} style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0 }} />
+        <View style={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          backgroundColor: "rgba(240,240,232,0.3)",
+        }} />
+        <View style={{ position: 'absolute', top: 0, right: 0, left: 0, bottom: 0 }}>
+          <SafeAreaView style={{ flex: 0, backgroundColor: '' }} />
+          <SafeAreaView style={{
+            height: Dev_Height,
+            width: Dev_width,
+          }}>
+            <View style={{ height: "7%", width: "100%", backgroundColor: '', flexDirection: "row", alignItems: "center", paddingTop: "5%", justifyContent: "space-between" }}>
+              {/* <TouchableOpacity style={{ marginLeft: "6%" }}>
+            <Ionicons name="ios-menu" size={32} color="#7FA1F8" />
+          </TouchableOpacity> */}
+              <Text style={{ marginLeft: "6%", fontSize: 30, fontWeight: "bold", color: '#560CCE' }}>{this.getGreeting()}</Text>
+              <TouchableOpacity style={{ marginRight: "7%" }}>
+                <Ionicons name="person-circle-outline" size={40} color="#7FA1F8" />
+              </TouchableOpacity>
+            </View>
+            <View style={{ marginTop: 5, height: 1, backgroundColor: '#e6e4eb', width: Dev_width - 32, marginLeft: 16 }} />
+            <View style={{ height: "8%", width: "100%" }}>
+              <Text style={{ fontSize: 15, marginLeft: "6%", marginTop: "2%", color: "#0071e3" }}>Discover new books</Text>
+              <Text style={{ fontSize: 20, fontWeight: "bold", marginLeft: "6%", marginTop: "2%" }}>Popular books</Text>
+            </View>
 
-        <View style={{height : "8%", width: "100%"}}>
-          <Text style ={{fontSize:20,fontWeight:"bold",marginLeft:"6%", marginTop:"2%"}}>Books IU hot!!</Text>
+            <View>
+              <FlatList
+                data={ran}
+                renderItem={this._render_item}
+                keyExtractor={item => item._id.toString()}
+                horizontal={true}
+                style={{ marginLeft: "7%", height: "30%", width: "93%" }}
+                ItemSeparatorComponent={
+                  () => <View style={{ width: 30, height: "30%" }} />
+                }
+              />
+            </View>
+            <Text style={{ fontSize: 20, fontWeight: "bold", marginLeft: "6%", marginTop: "2%" }}>Hot books</Text>
+            <View>
+              <View style={{ marginTop: 10, flexDirection: "row", width: "100%" }}>
+                <Animated.FlatList
+                  data={this.state.items}
+                  renderItem={this._render_item2}
+                  keyExtractor={item => `key-${item._id}`}
+                  style={{ marginLeft: "7%", height: 275, width: "100%" }}
+                  ItemSeparatorComponent={
+                    () => <View style={{ width: "30%", height: 20 }} />
+                  }
+                  onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: this.scrollY } } }],
+                    { useNativeDriver: true }
+                  )}
+                />
+              </View>
+            </View>
+          </SafeAreaView>
         </View>
-
-        <View>
-          <FlatList 
-            data={this.state.items}
-            renderItem={this._render_item}
-            keyExtractor={item => item._id.toString()}
-            horizontal={true}
-            style={{marginLeft:"7%", height:"30%",width:"100%"}}
-            ItemSeparatorComponent={
-              () => <View style={{width:13,height:"30%"}}/>
-            }
-          />
-        </View>
-        
-        <View>
-          <View style={{marginTop:10, flexDirection:"row", width:"100%"}}>
-            <FlatList 
-              data={this.state.items}
-              renderItem={this._render_item2}
-              keyExtractor={item => item._id.toString()}
-              style={{marginLeft:"7%", height:300,width:"100%"}}
-              ItemSeparatorComponent={
-                () => <View style={{width:"30%",height:20}}/>
-              }
-            />
-          </View>
-        </View>
-      </SafeAreaView>
+      </>
     )
   }
 }
@@ -181,9 +182,9 @@ componentDidMount(){
 
 const LineDivider = () => {
   return (
-      <View style={{ width: 1, paddingVertical: 5 }}>
-          <View style={{ flex: 1, borderLeftColor: "#EFEFF0", borderLeftWidth: 1 }}></View>
-      </View>
+    <View style={{ width: 1, paddingVertical: 5 }}>
+      <View style={{ flex: 1, borderLeftColor: "#EFEFF0", borderLeftWidth: 1 }}></View>
+    </View>
   )
 }
 const Stack = createStackNavigator();
@@ -191,9 +192,30 @@ const Stack = createStackNavigator();
 export default function MyStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen options={{headerMode: 'none'}} name="Home1" component={Home} />
-      <Stack.Screen options={{headerMode: 'none'}} name="BookDetail" component={B.BookDetail} />
-      <Stack.Screen options={{headerMode: 'none'}} name="ReadBook" component={B.readBook} />
+      <Stack.Screen options={{ headerMode: 'none' }} name="Home1" component={Home} />
+      <Stack.Screen options={{ headerMode: 'none' }} name="BookDetail" component={B.BookDetail} />
+      <Stack.Screen options={{ headerMode: 'none' }} name="ReadBook" component={B.readBook} />
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+    shadowOpacity: 0.46,
+    shadowRadius: 4.65,
+  },
+  shadowText: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 4.65,
+  }
+})
