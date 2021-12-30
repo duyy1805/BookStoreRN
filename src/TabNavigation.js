@@ -1,13 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, Animated } from "react-native";
 
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
+import { useRef } from 'react';
 const Dev_Height = Dimensions.get("window").height;
 const Dev_width = Dimensions.get("window").width;
+const width = Dev_width/4;
 // hello world
 import Library from "./Components/Library";
 import SearchBar from "./Components/SearchBar";
@@ -17,7 +18,7 @@ import Params from "./API/Params";
 const Tab = createBottomTabNavigator();
 export default function TabNavigation({ route, navigation }) {
     const { token } = route.params;
-
+    const tabOffsetValue = useRef(new Animated.Value(0)).current;
     return (
         <Params.Provider value={token}>
             <Tab.Navigator screenOptions={{
@@ -33,6 +34,15 @@ export default function TabNavigation({ route, navigation }) {
                     }}
                     name="Home"
                     component={Home}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start();
+                        }
+                    })}
                 />
                 <Tab.Screen
                     options={{
@@ -44,6 +54,15 @@ export default function TabNavigation({ route, navigation }) {
                     }}
                     name="Library"
                     component={Library}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: width,
+                                useNativeDriver: true
+                            }).start();
+                        }
+                    })}
                 />
                 <Tab.Screen
                     options={{
@@ -55,6 +74,15 @@ export default function TabNavigation({ route, navigation }) {
                     }}
                     name="Search"
                     component={SearchBar}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: width * 2,
+                                useNativeDriver: true
+                            }).start();
+                        }
+                    })}
                 />
                 <Tab.Screen
                     options={{
@@ -66,8 +94,32 @@ export default function TabNavigation({ route, navigation }) {
                     }}
                     name="Profile"
                     component={Library}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: width * 3,
+                                useNativeDriver: true
+                            }).start();
+                        }
+                    })}
                 />
             </Tab.Navigator>
+            <Animated.View style={{
+                    width: Dev_width/4,
+                    height: 2,
+                    backgroundColor: 'red',
+                    position: 'absolute',
+                    bottom: 80,
+                    // Horizontal Padding = 20...
+                    // left: 50,
+                    borderRadius: 20,
+                    transform: [
+                        { translateX: tabOffsetValue }
+                    ]
+                }}>
+
+                </Animated.View>
         </Params.Provider>
     );
 }

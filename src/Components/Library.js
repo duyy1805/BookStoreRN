@@ -8,8 +8,11 @@ import {WebView} from 'react-native-webview'
 import { NavigationContainer } from '@react-navigation/native';
 import {Ionicons, AntDesign} from "@expo/vector-icons"
 import B from './BookDetail'
+import api from '../API/api.js'
 import { ProgressBar, Colors, Searchbar} from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
+import TextInput from "./component/TextInput";
+
 const Dev_Height = Dimensions.get('window').height
 const Dev_width = Dimensions.get('window').width
  
@@ -25,7 +28,7 @@ class Library extends React.Component {
     }
   }
   getItem=()=>{
-    fetch('http:192.168.8.102:5000/api/book/show/downloaded')
+    fetch(api.url1 + '/api/book/show/downloaded')
       .then((res)=>res.json())
       .then((data)=>{
         // console.log(data)
@@ -77,7 +80,6 @@ class Library extends React.Component {
   }
   render(){
     return (
-      
       // <SafeAreaView style = {{
       //   height : Dev_Height,
       //   width : Dev_width

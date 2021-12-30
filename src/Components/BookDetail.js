@@ -4,7 +4,7 @@ import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 import Params from "../API/Params";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Popup, Toast, Root } from "popup-ui";
+import { Popup, Toast, Root } from "popup-ui copy";
 // const [books,setBooks] = useState()
 import {
     StyleSheet,
@@ -485,7 +485,7 @@ const BookDetail = ({ route, navigation }) => {
                                             type: "Warning",
                                             title: "",
                                             button: true,
-                                            buttonText: "Oke",
+                                            buttonText: "THOÁT",
                                             textBody:
                                                 "Vui lòng đăng nhập để tải sách",
                                             callback: () => Popup.hide(),
@@ -538,6 +538,7 @@ const BookDetail = ({ route, navigation }) => {
                 <View style={{ flex: 4 }}>{renderBookInfoSection()}</View>
                 {/* Description */}
                 <View style={{ flex: 2 }}>{renderBookDescription()}</View>
+                {/* ButtonDowload */}
                 <View style={{ height: 70, marginBottom: 0 }}>
                     {renderBottomButton()}
                 </View>

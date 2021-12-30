@@ -6,12 +6,14 @@ import Background from "./component/Background";
 import Logo from "./component/Logo";
 import Header from "./component/Header";
 import Button from "./component/Button";
+import api from '../API/api.js'
 import TextInput from "./component/TextInput";
 import BackButton from "./component/BackButton";
 import { theme } from "./component/core/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({ navigation }) {
+    navigation.gesturesEnabled = false
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [token, setToken] = useState("");
@@ -19,7 +21,7 @@ export default function LoginScreen({ navigation }) {
         AsyncStorage.removeItem("token");
     }, []);
     const sendCred = async ({ navigation }) => {
-        fetch("http://172.20.10.3:5000/api/auth/login", {
+        fetch(api.url2 + "/api/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -88,8 +90,7 @@ export default function LoginScreen({ navigation }) {
                     returnKeyType="done"
                     // value={password.value}
                     onChangeText={(text) => setPassword(text)}
-                    // error={!!password.error}
-                    // errorText={password.error}
+                   
                     secureTextEntry
                 />
                 <View style={styles.forgotPassword}>

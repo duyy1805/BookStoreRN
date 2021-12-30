@@ -10,7 +10,7 @@ import { WebView } from 'react-native-webview'
 import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons, AntDesign } from "@expo/vector-icons"
 
-
+import api from '../API/api.js'
 import B from './BookDetail'
 import Library from './Library'
 import Background from "./component/Background";
@@ -47,7 +47,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     const getItem = () => {
-      fetch('http:192.168.8.102:5000/api/book/show')
+      fetch(api.url1 + '/api/book/show')
         .then((res) => res.json())
         .then((data) => {
           // console.log(data)
@@ -80,7 +80,7 @@ class Home extends React.Component {
         120 * index,
         120 * (index+2)
       ],
-      outputRange: [1, 1, 1, 0]
+      outputRange: [1, 1, 1, -2]
     })
     return (
       <Animated.View style={{ flexDirection: "row", width: "100%", transform: [{ scale }] }}>
@@ -91,10 +91,10 @@ class Home extends React.Component {
         </View >
         <View>
           <View style={{ width: 250 }}>
-            <Text style={[styles.shadow, { fontWeight: "bold", fontSize: 20, marginLeft: "10%", marginTop: "5%" }]}>{item.title1}</Text>
+            <Text numberOfLines={1} style={[styles.shadow, { fontWeight: "bold", fontSize: 20, marginLeft: "10%", marginTop: "5%" }]}>{item.title1}</Text>
             <Text style={{ marginLeft: "10%", marginTop: "5%" }}>{item.author}</Text>
             <View style={{ flexDirection: 'row' }}>
-              <ProgressBar style={{ height: 3, width: 100, marginLeft: "15%", marginTop: "8%" }} progress={0.73} />
+              <ProgressBar style={{ height: 3, width: 100, marginLeft: "15%", marginTop: "8%" }} progress={0.73*item.rating/5} />
               <Text style={{ marginRight: " 5%" }}>{item.rating}</Text>
               <Ionicons name="star" size={20} color="#ffc107" style={{ bottom: 5 }} />
             </View>
