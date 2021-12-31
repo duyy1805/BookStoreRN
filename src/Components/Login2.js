@@ -6,14 +6,13 @@ import Background from "./component/Background";
 import Logo from "./component/Logo";
 import Header from "./component/Header";
 import Button from "./component/Button";
-import api from '../API/api.js'
+import api from "../API/api.js";
 import TextInput from "./component/TextInput";
 import BackButton from "./component/BackButton";
 import { theme } from "./component/core/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({ navigation }) {
-    navigation.gesturesEnabled = false
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [token, setToken] = useState("");
@@ -35,27 +34,15 @@ export default function LoginScreen({ navigation }) {
             .then(async (data) => {
                 try {
                     console.log(data.accessToken);
-                    await AsyncStorage.setItem("token", data.accessToken);
-                    const token = await AsyncStorage.getItem("token");
-                    setToken(token);
+                    // await AsyncStorage.setItem("tk", data.accessToken);
+                    // const tk = await AsyncStorage.getItem("tk");
+                    // setToken(data.accessToken);     Chưa hiểu chỗ này? Tại sao setToken thì phải ấn 2 lần? Vì setToken thì nó sẽ rerender
+                    const token = data.accessToken;
+                    // alert(token);
 
-                    // console.log(token);
-                    // await AsyncStorage.setItem("user", data.user.email);
-                    // await AsyncStorage.setItem("username", data.user.username);
-                    // await Popup.show({
-                    //     type: "Success",
-                    //     title: "Đăng ký thành công",
-                    //     button: true,
-                    //     buttonText: "Ok",
-                    //     // textBody: "Congrats! Your upload successfully done",
-
-                    //     callback: () => {
-                    //         Popup.hide();
-                    //         console.log(AsyncStorage.getItem("token"));
-                    //         navigation.replace("TabNavigation");
-                    //     },
-                    // });
-                    navigation.navigate("TabNavigation", { token });
+                    if (token != "") {
+                        navigation.navigate("TabNavigation", { token });
+                    }
                 } catch (e) {
                     Popup.show({
                         type: "Danger",
@@ -90,7 +77,6 @@ export default function LoginScreen({ navigation }) {
                     returnKeyType="done"
                     // value={password.value}
                     onChangeText={(text) => setPassword(text)}
-                   
                     secureTextEntry
                 />
                 <View style={styles.forgotPassword}>

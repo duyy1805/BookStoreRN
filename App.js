@@ -10,27 +10,34 @@ import LoginScreen from "./src/Components/Login2";
 // import AlertView from "./src/Components/component/AlertView";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from "@react-navigation/stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { set } from "mongoose";
 const Stack = createStackNavigator();
 const App = () => {
-    const [isLoggedIn, setLogged] = useState(null);
-    const detectLogin = async () => {
-        const token = await AsyncStorage.getItem("token");
-        if (token) {
-            setLogged(true);
-        } else {
-            setLogged(false);
-        }
-    };
-    useEffect(() => {
-        detectLogin();
-    }, []);
+    const [isLoggedIn, setLogged] = useState(false);
+    const [token, setToken] = useState(null);
+    // const detectLogin = async () => {
+    //     const token1 = await AsyncStorage.getItem("token");
+    //     alert(token);
+    //     if (token1 != null) {
+    //         setLogged(true);
+    //     }
+
+    //     // if (token) {
+    //     //     setLogged(true);
+    //     // } else {
+    //     //     setLogged(false);
+    //     // }
+    // };
+    // useEffect(() => {
+    //     detectLogin();
+    // }, [token]);
 
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen
                     name="StartScreen"
                     component={StartScreen}
@@ -46,6 +53,7 @@ const App = () => {
                     component={SignUp}
                     options={{ headerShown: false }}
                 />
+
                 <Stack.Screen
                     name="TabNavigation"
                     component={TabNavigation}

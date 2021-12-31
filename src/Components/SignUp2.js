@@ -14,7 +14,7 @@ export default function SignUp({ navigation }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const sendCred = async ({ navigation }) => {
-        fetch("http://192.168.8.100:5000/api/auth/register", {
+        fetch("http://172.20.10.3:5000/api/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -31,6 +31,8 @@ export default function SignUp({ navigation }) {
                     // alert(data.user.email);
 
                     await AsyncStorage.setItem("token", data.accessToken);
+                    alert(data.accessToken);
+                    const token = data.accessToken;
                     // await AsyncStorage.setItem("username", data.user.username);
                     await Popup.show({
                         type: "Success",
@@ -41,7 +43,7 @@ export default function SignUp({ navigation }) {
 
                         callback: () => {
                             Popup.hide();
-                            navigation.navigate("TabNavigation",{token});
+                            navigation.navigate("TabNavigation", { token });
                         },
                     });
                 } catch (e) {
@@ -87,6 +89,7 @@ export default function SignUp({ navigation }) {
                     mode="contained"
                     onPress={() => {
                         sendCred({ navigation });
+                        console.log(username, password);
                     }}
                     style={{ marginTop: 24 }}
                 >
