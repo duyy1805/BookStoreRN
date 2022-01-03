@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Background from "./component/Background";
 import Logo from "./component/Logo";
 import Header from "./component/Header";
@@ -9,9 +9,6 @@ import Paragraph from "./component/Paragraph";
 import { theme } from "./component/core/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function StartScreen({ navigation }) {
-    // AsyncStorage.removeItem("token");
-    // const token = AsyncStorage.getItem("token");
-    // alert(token);
     return (
         <Background>
             <Logo />
