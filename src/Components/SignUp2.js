@@ -14,7 +14,7 @@ export default function SignUp({ navigation }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const sendCred = async ({ navigation }) => {
-        fetch("http://172.20.10.3:5000/api/auth/register", {
+        fetch("http://70.1.1.111:5000/api/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

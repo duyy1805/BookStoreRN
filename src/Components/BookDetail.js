@@ -55,7 +55,7 @@ const LineDivider = () => {
 
 const readBook = ({ route, navigation }) => {
     const book = route.params;
-    return (<WebView source={{ uri: book.uri }} />);
+    return <WebView source={{ uri: book.uri }} />;
 };
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -342,7 +342,7 @@ const BookDetail = ({ route, navigation }) => {
         const indicatorSize =
             scrollViewWholeHeight > scrollViewVisibleHeight
                 ? (scrollViewVisibleHeight * scrollViewVisibleHeight) /
-                scrollViewWholeHeight
+                  scrollViewWholeHeight
                 : scrollViewVisibleHeight;
 
         const difference =
@@ -370,7 +370,7 @@ const BookDetail = ({ route, navigation }) => {
                                     translateY: Animated.multiply(
                                         indicator,
                                         scrollViewVisibleHeight /
-                                        scrollViewWholeHeight
+                                            scrollViewWholeHeight
                                     ).interpolate({
                                         inputRange: [0, difference],
                                         outputRange: [0, difference],
@@ -455,9 +455,16 @@ const BookDetail = ({ route, navigation }) => {
                                         const str = book.title1;
                                         setColorDL("#62b35d")
                                         function capitalize(str) {
-                                            return str.charAt(0).toUpperCase() + str.slice(1);
+                                            return (
+                                                str.charAt(0).toUpperCase() +
+                                                str.slice(1)
+                                            );
                                         }
-                                        const caps = str.split(' ').map(capitalize).join('_'); console.log(caps);
+                                        const caps = str
+                                            .split(" ")
+                                            .map(capitalize)
+                                            .join("_");
+                                        console.log(caps);
                                         const filename = `${caps}.pdf`;
                                         await downloadToFolder(
                                             uri,
@@ -465,16 +472,18 @@ const BookDetail = ({ route, navigation }) => {
                                             "Download",
                                             channelId,
                                             {
-                                                notificationType: { notification: 'custom' },
+                                                notificationType: {
+                                                    notification: "custom",
+                                                },
                                                 notificationContent: {
                                                     downloading: {
                                                         title: filename,
                                                     },
                                                     finished: {
-                                                        title: 'Complete!',
+                                                        title: "Complete!",
                                                     },
                                                     error: {
-                                                        title: 'Oops!'
+                                                        title: "Oops!",
                                                     },
                                                 },
                                                 downloadProgressCallback:
@@ -514,7 +523,9 @@ const BookDetail = ({ route, navigation }) => {
                                     alignItems: "center",
                                     justifyContent: "center",
                                 }}
-                                onPress={() => navigation.navigate("ReadBook", book)}
+                                onPress={() =>
+                                    navigation.navigate("ReadBook", book)
+                                }
                             >
                                 <Text
                                     style={{
