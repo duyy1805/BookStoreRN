@@ -438,6 +438,7 @@ const BookDetail = ({ route, navigation }) => {
                     <Root>
                         <View style={{ flex: 1, flexDirection: "row" }}>
                             {/* Bookmark */}
+
                             <TouchableOpacity
                                 style={{
                                     width: 60,
@@ -534,6 +535,7 @@ const BookDetail = ({ route, navigation }) => {
                                         color: "#FFFFFF",
                                     }}
                                 >
+                                    {" "}
                                     Start Reading
                                 </Text>
                             </TouchableOpacity>
