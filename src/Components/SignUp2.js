@@ -8,13 +8,14 @@ import Header from "./component/Header";
 import Button from "./component/Button";
 import TextInput from "./component/TextInput";
 import BackButton from "./component/BackButton";
+import api from "../API/api";
 import { theme } from "./component/core/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function SignUp({ navigation }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const sendCred = async ({ navigation }) => {
-        fetch("http://70.1.1.111:5000/api/auth/register", {
+        fetch(api.url2 + "/api/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
