@@ -1,5 +1,5 @@
 
-import React from "react";
+import React,{useState} from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity, ImageBackground } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { MyContext } from "./Context";
@@ -7,7 +7,8 @@ import { MyContext } from "./Context";
 import { NavigationContainer } from "@react-navigation/native";
 
 import { createStackNavigator } from "@react-navigation/stack";
-export default function Profile({navigation, route }) {
+const Profile = ({navigation, route }) => {
+    const [btn,setBtn] = useState("Log out")
     return (
         <SafeAreaView style={styles.container}>
             <ImageBackground
@@ -44,6 +45,7 @@ export default function Profile({navigation, route }) {
                 <View style={styles.infoContainer}>
                     <MyContext.Consumer>
                     {(context) => (
+                        context.username == null ? setBtn("Return to main menu") : setBtn("Log out"),
                         <>
                         <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>{context.username}</Text>
                         {/* <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}></Text> */}
@@ -51,21 +53,6 @@ export default function Profile({navigation, route }) {
                     )}
                     </MyContext.Consumer>
                 </View>
-
-                {/* <View style={styles.statsContainer}>
-                    <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>483</Text>
-                        <Text style={[styles.text, styles.subText]}>Posts</Text>
-                    </View>
-                    <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>45,844</Text>
-                        <Text style={[styles.text, styles.subText]}>Followers</Text>
-                    </View>
-                    <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>302</Text>
-                        <Text style={[styles.text, styles.subText]}>Following</Text>
-                    </View>
-                </View> */}
 
                 <View style={{ marginTop: 32 }}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -94,10 +81,12 @@ export default function Profile({navigation, route }) {
                                     borderRadius: 12,
                                     alignItems: "center",
                                     justifyContent: "center",
+                                    disabled: "true"
                                 }}
                                 onPress={() =>
                                     navigation.popToTop()
                                 }
+                                hidden = {true}
                             >
                                 <Text
                                     style={{
@@ -106,8 +95,7 @@ export default function Profile({navigation, route }) {
                                         color: "#FFFFFF",
                                     }}
                                 >
-                                    {" "}
-                                    Log out
+                                    {btn}
                                 </Text>
                     </TouchableOpacity>
                 </View>
@@ -115,6 +103,8 @@ export default function Profile({navigation, route }) {
         </SafeAreaView>
     );
 }
+
+export default Profile
 
 const styles = StyleSheet.create({
     container: {
