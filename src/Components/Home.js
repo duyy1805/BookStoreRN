@@ -65,6 +65,7 @@ class Home extends React.Component {
         };
         getItem();
     }
+    
     _render_item = ({ item, index }) => {
         return (
             <TouchableOpacity
@@ -234,7 +235,7 @@ class Home extends React.Component {
                         bottom: 0,
                     }}
                 >
-                    <SafeAreaView style={{ flex: 0, backgroundColor: "" }} />
+                    {/* <SafeAreaView style={{ flex: 0, backgroundColor: "" }} /> */}
                     <SafeAreaView
                         style={{
                             height: Dev_Height,
@@ -282,6 +283,7 @@ class Home extends React.Component {
                                 marginLeft: 16,
                             }}
                         />
+                        <ScrollView style={{height:"10%"}}>
                         <View style={{ height: "8%", width: "100%" }}>
                             <Text
                                 style={{
@@ -313,7 +315,8 @@ class Home extends React.Component {
                                 horizontal={true}
                                 style={{
                                     marginLeft: "7%",
-                                    height: "30%",
+                                    marginTop:"2%",
+                                    height: 250,
                                     width: "93%",
                                 }}
                                 ItemSeparatorComponent={() => (
@@ -333,7 +336,7 @@ class Home extends React.Component {
                         >
                             Hot books
                         </Text>
-                        <View>
+                        {/* <View> */}
                             <View
                                 style={{
                                     marginTop: 10,
@@ -347,7 +350,7 @@ class Home extends React.Component {
                                     keyExtractor={(item) => `key-${item._id}`}
                                     style={{
                                         marginLeft: "7%",
-                                        height: 275,
+                                        height: 275, //275
                                         width: "100%",
                                     }}
                                     ItemSeparatorComponent={() => (
@@ -369,7 +372,8 @@ class Home extends React.Component {
                                     )}
                                 />
                             </View>
-                        </View>
+                        {/* </View> */}
+                        </ScrollView>
                     </SafeAreaView>
                 </View>
             </>
