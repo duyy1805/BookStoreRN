@@ -33,18 +33,38 @@ class Library extends React.Component {
             items: [],
             refreshing: true,
         };
+        this.u = "";
     }
+    // getItem = () => {
+    //     fetch(api.url1 + "/api/book/show/downloaded")
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             // console.log(data)
+    //             this.setState({
+    //                 items: data,
+    //                 refreshing: false,
+    //             });
+    //         });
+    // };
     getItem = () => {
-        fetch(api.url1 + "/api/book/show/downloaded")
-            .then((res) => res.json())
-            .then((data) => {
-                // console.log(data)
-                console.log(this.props.route);
-                this.setState({
-                    items: data,
-                    refreshing: false,
-                });
+        fetch(api.url1 + "/api/book/show/downloaded",{
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username : this.u
+            }),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            // console.log(data)
+            this.setState({
+                items: data,
+                refreshing: false,
             });
+        });
     };
     componentDidMount() {
         this.getItem();
@@ -104,7 +124,9 @@ class Library extends React.Component {
             <>
                 <MyContext.Consumer>
                     {(context) => (
+                        this.u= context.username,
                         <>
+                            {/* {this.u=context.username} */}
                             <ImageBackground
                                 source={{
                                     uri: "https://kenh14cdn.com/2020/9/25/hinh-nen-iphone-11-1600990116056809485952.jpg",
@@ -141,7 +163,7 @@ class Library extends React.Component {
                                 <Text
                                     style={{ fontSize: 20, fontWeight: "bold" }}
                                 >
-                                    {context.username} Library
+                                     Library
                                 </Text>
                                 {/* <TouchableOpacity onPress={() => this.setState({items: null})} style = {{marginLeft:"70%"}}>
                     <Ionicons name = "refresh-outline" size = {32} color= "#7FA1F8"/>

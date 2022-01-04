@@ -13,6 +13,7 @@ const width = Dev_width / 4;
 import Library from "./Components/Library";
 import SearchBar from "./Components/SearchBar";
 import Home from "./Components/Home";
+import Profile from "./Components/Profile";
 import Params from "./API/Params";
 import { MyContext } from "./Components/Context";
 // import { Searchbar } from 'react-native-paper';
@@ -103,7 +104,7 @@ export default function TabNavigation({ route, navigation }) {
                         ),
                     }}
                     name="Profile"
-                    component={Library}
+                    component={Profile}
                     listeners={({ navigation, route }) => ({
                         // Onpress Update....
                         tabPress: (e) => {

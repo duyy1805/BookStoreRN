@@ -32,7 +32,27 @@ class SearchBar extends React.Component {
         this.state = {
             items: [],
             isForcused: false,
-            keyword: ''
+            keyword: '',
+            items1:[
+                {
+                          title1: "Other world for home",
+                          title2: "Jasmine warga",
+                          id:1,
+                          rating:4,
+                          language: 'English',
+                          description:"",
+                          uri:"https://cdn.amightygirl.com/catalog/product/cache/1/image/602f0fa2c1f0d1ba5e241f914e856ff9/o/t/other_words.jpg"
+                        },
+                        {
+                          title1: "Dead is like a wind",
+                          title2: "Yasuo",
+                          id:2,
+                          rating:4,
+                          language: 'English',
+                          description:"",
+                          uri:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_25w8CXqZ_ntCxktCHE4qtlojdtS6zD9kODzSNR5X4_Uzq317xYv1EjdPLUT6oCfjkQ4&usqp=CAU"
+                        },
+            ]
         }
         // animatione values
         this._input_box_translate_x = new Value(width)
@@ -212,22 +232,16 @@ class SearchBar extends React.Component {
                     <Text style={{ fontSize: 30, fontWeight: "bold", marginLeft: 40, marginTop: 50 }}>Trending</Text>
                     <View style={styles.separator} />
                     <ScrollView style={{}}>
-                        <View style={styles.search_item}>
+                        <TouchableOpacity style={styles.search_item} onPress={() =>
+                    this.props.navigation.navigate("BookDetail", {book: this.state.items1[0]})}>
                             <Icon style={styles.item_icon} name="search" size={23} color="#cccccc" />
                             <Text style={styles.trendy_text}>Kết quả 1 nè </Text>
-                        </View>
-                        <View style={styles.search_item}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.search_item} onPress={() =>
+                    this.props.navigation.navigate("BookDetail", {book: this.state.items1[1]})}>
                             <Icon style={styles.item_icon} name="search" size={23} color="#cccccc" />
                             <Text style={styles.trendy_text}>Kết quả 2 nè </Text>
-                        </View>
-                        <View style={styles.search_item}>
-                            <Icon style={styles.item_icon} name="search" size={23} color="#cccccc" />
-                            <Text style={styles.trendy_text}>Kết quả 3 nè </Text>
-                        </View>
-                        <View style={styles.search_item}>
-                            <Icon style={styles.item_icon} name="search" size={23} color="#cccccc" />
-                            <Text style={styles.trendy_text}>Kết quả 4 nè </Text>
-                        </View>
+                        </TouchableOpacity>
                     </ScrollView>
                 </View>
                 <Animated.View style={[styles.content, { opacity: this._content_opacity, transform: [{ translateY: this._content_translate_y }] }]}>

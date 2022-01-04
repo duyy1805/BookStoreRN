@@ -266,7 +266,7 @@ class Home extends React.Component {
                             >
                                 {this.getGreeting()}
                             </Text>
-                            <TouchableOpacity style={{ marginRight: "7%" }}>
+                            <TouchableOpacity style={{ marginRight: "7%" }} onPress={() => this.props.navigation.popToTop()}>
                                 <Ionicons
                                     name="person-circle-outline"
                                     size={40}

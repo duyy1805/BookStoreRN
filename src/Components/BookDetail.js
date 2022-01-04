@@ -75,6 +75,7 @@ const BookDetail = ({ route, navigation }) => {
     const indicator = new Animated.Value(0);
 
     const [stt, setStt] = useState(book.status);
+    const [user, setUser] = useState();
     console.log(book.status);
 
     const channelId = "DownloadInfo";
@@ -142,6 +143,7 @@ const BookDetail = ({ route, navigation }) => {
                 },
                 body: JSON.stringify({
                     title: book.title1,
+                    username: user
                 }),
             })
                 .then((res) => res.json())
@@ -434,6 +436,7 @@ const BookDetail = ({ route, navigation }) => {
         return (
             <MyContext.Consumer>
                 {(context) => (
+                    setUser(context.username),
                     <Root>
                         <View style={{ flex: 1, flexDirection: "row" }}>
                             {/* Bookmark */}
