@@ -19,20 +19,7 @@ const Tab = createBottomTabNavigator();
 export default function TabNavigation({ route, navigation }) {
     const { token } = route.params;
     const tabOffsetValue = useRef(new Animated.Value(0)).current;
-    // React.useEffect(() => {
-    //     const unsubscribe = navigation.addListener("beforeRemove", (e) => {
-    //         e.preventDefault();
-    //     });
 
-    //     return unsubscribe;
-    // }, [navigation]);
-    // React.useEffect(() =>
-    //     navigation.addListener("beforeRemove", (e) => {
-    //         if (token != "") {
-    //             e.preventDefault();
-    //         }
-    //     })
-    // );
     useEffect(() => {
         if (token != "") {
             navigation.setOptions({ gestureEnabled: false });

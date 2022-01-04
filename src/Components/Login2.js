@@ -34,14 +34,21 @@ export default function LoginScreen({ navigation }) {
             .then(async (data) => {
                 try {
                     console.log(data.accessToken);
-                    // await AsyncStorage.setItem("tk", data.accessToken);
-                    // const tk = await AsyncStorage.getItem("tk");
-                    // setToken(data.accessToken);     Chưa hiểu chỗ này? Tại sao setToken thì phải ấn 2 lần? Vì setToken thì nó sẽ rerender
-                    const token = data.accessToken;
-                    // alert(token);
 
-                    if (token != "") {
+                    const token = data.accessToken;
+
+                    if (token != undefined) {
                         navigation.navigate("TabNavigation", { token });
+                    } else {
+                        Popup.show({
+                            type: "Danger",
+                            title: "Đăng nhập thất bại",
+                            button: true,
+                            buttonText: "Thử lại",
+                            textBody: "Tài khoản hoặc mật khẩu sai",
+
+                            callback: () => Popup.hide(),
+                        });
                     }
                 } catch (e) {
                     Popup.show({
