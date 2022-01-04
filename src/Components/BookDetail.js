@@ -33,6 +33,7 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { ProgressBar, Colors, Searchbar } from "react-native-paper";
 import { WebView } from "react-native-webview";
 import { createStackNavigator } from "@react-navigation/stack";
+import api from "../API/api";
 
 const Dev_Height = Dimensions.get("window").height;
 const Dev_width = Dimensions.get("window").width;
@@ -134,7 +135,7 @@ const BookDetail = ({ route, navigation }) => {
     });
     function DownloadBook() {
         const download = async () => {
-            fetch("http:192.168.8.100:5000/api/book/download", {
+            fetch(api.url1 + "/api/book/download", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -424,13 +425,13 @@ const BookDetail = ({ route, navigation }) => {
             </View>
         );
     }
-
+    useEffect(() => {
+        stt == true ? setColorDL("#62b35d") : setColorDL("#EFEFF0");
+        console.log(stt);
+        console.log(colorDL);
+    }, [colorDL]);
     const renderBottomButton = (item, index) => {
-        useEffect(() => {
-            stt == true ? setColorDL("#62b35d") : setColorDL("#EFEFF0");
-            console.log(stt);
-            console.log(colorDL);
-        }, [colorDL]);
+
         return (
             <Params.Consumer>
                 {(context) => (
@@ -452,6 +453,7 @@ const BookDetail = ({ route, navigation }) => {
                                         DownloadBook();
                                         const uri = book.uri;
                                         const str = book.title1;
+                                        setColorDL("#62b35d")
                                         function capitalize(str) {
                                             return str.charAt(0).toUpperCase() + str.slice(1);
                                         }
@@ -479,7 +481,7 @@ const BookDetail = ({ route, navigation }) => {
                                                     downloadProgressUpdater,
                                             }
                                         );
-                                        setColorDL("#62b35d")
+                                        
                                     } else {
                                         Popup.show({
                                             type: "Warning",
