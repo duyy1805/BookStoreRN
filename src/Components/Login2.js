@@ -38,7 +38,10 @@ export default function LoginScreen({ navigation }) {
                     const token = data.accessToken;
 
                     if (token != undefined) {
-                        navigation.navigate("TabNavigation", { token });
+                        navigation.navigate("TabNavigation", {
+                            token,
+                            username,
+                        });
                     } else {
                         Popup.show({
                             type: "Danger",

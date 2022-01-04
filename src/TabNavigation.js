@@ -17,7 +17,7 @@ import Params from "./API/Params";
 // import { Searchbar } from 'react-native-paper';
 const Tab = createBottomTabNavigator();
 export default function TabNavigation({ route, navigation }) {
-    const { token } = route.params;
+    const { token, username } = route.params;
     const tabOffsetValue = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export default function TabNavigation({ route, navigation }) {
         }
     }, []);
     return (
-        <Params.Provider value={token}>
+        <Params.Provider value={{ token, username }}>
             <Tab.Navigator
                 screenOptions={{
                     tabBarStyle: { backgroundColor: "#f0d7f4" },
