@@ -57,7 +57,7 @@ const App = () => {
                 <Stack.Screen
                     name="TabNavigation"
                     component={TabNavigation}
-                    options={{ headerShown: false }}
+                    options={{ headerShown: false, }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
