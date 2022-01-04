@@ -14,6 +14,7 @@ import Library from "./Components/Library";
 import SearchBar from "./Components/SearchBar";
 import Home from "./Components/Home";
 import Params from "./API/Params";
+import { MyContext } from "./Components/Context";
 // import { Searchbar } from 'react-native-paper';
 const Tab = createBottomTabNavigator();
 export default function TabNavigation({ route, navigation }) {
@@ -26,7 +27,7 @@ export default function TabNavigation({ route, navigation }) {
         }
     }, []);
     return (
-        <Params.Provider value={{ token, username }}>
+        <MyContext.Provider value={{ token, username }}>
             <Tab.Navigator
                 screenOptions={{
                     tabBarStyle: { backgroundColor: "#f0d7f4" },
@@ -71,6 +72,7 @@ export default function TabNavigation({ route, navigation }) {
                             }).start();
                         },
                     })}
+                    // inititalParamas={{ username: username }}
                 />
                 <Tab.Screen
                     options={{
@@ -126,6 +128,6 @@ export default function TabNavigation({ route, navigation }) {
                     transform: [{ translateX: tabOffsetValue }],
                 }}
             ></Animated.View>
-        </Params.Provider>
+        </MyContext.Provider>
     );
 }

@@ -5,7 +5,7 @@ import * as Permissions from "expo-permissions";
 import Params from "../API/Params";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Popup, Toast, Root } from "popup-ui copy";
-// const [books,setBooks] = useState()
+import { MyContext } from "./Context";
 import {
     StyleSheet,
     Text,
@@ -431,9 +431,8 @@ const BookDetail = ({ route, navigation }) => {
         console.log(colorDL);
     }, [colorDL]);
     const renderBottomButton = (item, index) => {
-
         return (
-            <Params.Consumer>
+            <MyContext.Consumer>
                 {(context) => (
                     <Root>
                         <View style={{ flex: 1, flexDirection: "row" }}>
@@ -450,11 +449,11 @@ const BookDetail = ({ route, navigation }) => {
                                     justifyContent: "center",
                                 }}
                                 onPress={async () => {
-                                    if (context != "") {
+                                    if (context.token != "") {
                                         DownloadBook();
                                         const uri = book.uri;
                                         const str = book.title1;
-                                        setColorDL("#62b35d")
+                                        setColorDL("#62b35d");
                                         function capitalize(str) {
                                             return (
                                                 str.charAt(0).toUpperCase() +
@@ -491,7 +490,6 @@ const BookDetail = ({ route, navigation }) => {
                                                     downloadProgressUpdater,
                                             }
                                         );
-                                        
                                     } else {
                                         Popup.show({
                                             type: "Warning",
@@ -542,7 +540,7 @@ const BookDetail = ({ route, navigation }) => {
                         </View>
                     </Root>
                 )}
-            </Params.Consumer>
+            </MyContext.Consumer>
         );
     };
 

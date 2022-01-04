@@ -22,7 +22,7 @@ import api from "../API/api.js";
 import { ProgressBar, Colors, Searchbar } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import TextInput from "./component/TextInput";
-
+import { MyContext } from "./Context";
 const Dev_Height = Dimensions.get("window").height;
 const Dev_width = Dimensions.get("window").width;
 
@@ -101,66 +101,82 @@ class Library extends React.Component {
             //   width : Dev_width
             // }}>
             <>
-                <ImageBackground
-                    source={{
-                        uri: "https://kenh14cdn.com/2020/9/25/hinh-nen-iphone-11-1600990116056809485952.jpg",
-                    }}
-                    style={{
-                        position: "absolute",
-                        top: 0,
-                        right: 0,
-                        left: 0,
-                        bottom: 0,
-                    }}
-                />
-                <View
-                    style={{
-                        position: "absolute",
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: 0,
-                        backgroundColor: "rgba(240,240,232,0.3)",
-                    }}
-                />
-                <View
-                    style={{
-                        height: "15%",
-                        width: "100%",
-                        paddingTop: 20,
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "rgba(240,240,232,0.6)",
-                    }}
-                >
-                    <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                        Library
-                    </Text>
-                    {/* <TouchableOpacity onPress={() => this.setState({items: null})} style = {{marginLeft:"70%"}}>
+                <MyContext.Consumer>
+                    {(context) => (
+                        <>
+                            <ImageBackground
+                                source={{
+                                    uri: "https://kenh14cdn.com/2020/9/25/hinh-nen-iphone-11-1600990116056809485952.jpg",
+                                }}
+                                style={{
+                                    position: "absolute",
+                                    top: 0,
+                                    right: 0,
+                                    left: 0,
+                                    bottom: 0,
+                                }}
+                            />
+                            <View
+                                style={{
+                                    position: "absolute",
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                    backgroundColor: "rgba(240,240,232,0.3)",
+                                }}
+                            />
+                            <View
+                                style={{
+                                    height: "15%",
+                                    width: "100%",
+                                    paddingTop: 20,
+                                    flexDirection: "row",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    backgroundColor: "rgba(240,240,232,0.6)",
+                                }}
+                            >
+                                <Text
+                                    style={{ fontSize: 20, fontWeight: "bold" }}
+                                >
+                                    {context.username} Library
+                                </Text>
+                                {/* <TouchableOpacity onPress={() => this.setState({items: null})} style = {{marginLeft:"70%"}}>
                     <Ionicons name = "refresh-outline" size = {32} color= "#7FA1F8"/>
           </TouchableOpacity> */}
-                </View>
-                <View>
-                    {this.state.refreshing ? <ActivityIndicator /> : null}
-                    <FlatList
-                        data={this.state.items}
-                        renderItem={this._render_item}
-                        keyExtractor={(item) => item._id.toString()}
-                        numColumns={2}
-                        style={{ marginLeft: "7%", height: 620, width: "100%" }}
-                        ItemSeparatorComponent={() => (
-                            <View style={{ width: 13, height: 13 }} />
-                        )}
-                        refreshControl={
-                            <RefreshControl
-                                //refresh control used for the Pull to Refresh
-                                refreshing={this.state.refreshing}
-                                onRefresh={this.onRefresh}
-                            />
-                        }
-                    />
-                </View>
+                            </View>
+                            <View>
+                                {this.state.refreshing ? (
+                                    <ActivityIndicator />
+                                ) : null}
+                                <FlatList
+                                    data={this.state.items}
+                                    renderItem={this._render_item}
+                                    keyExtractor={(item) => item._id.toString()}
+                                    numColumns={2}
+                                    style={{
+                                        marginLeft: "7%",
+                                        height: 620,
+                                        width: "100%",
+                                    }}
+                                    ItemSeparatorComponent={() => (
+                                        <View
+                                            style={{ width: 13, height: 13 }}
+                                        />
+                                    )}
+                                    refreshControl={
+                                        <RefreshControl
+                                            //refresh control used for the Pull to Refresh
+                                            refreshing={this.state.refreshing}
+                                            onRefresh={this.onRefresh}
+                                        />
+                                    }
+                                />
+                            </View>
+                        </>
+                    )}
+                </MyContext.Consumer>
             </>
             // </SafeAreaView>
         );
