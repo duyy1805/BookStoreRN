@@ -30,7 +30,7 @@ export default function Profile({navigation, route }) {
 
                 <View style={{ alignSelf: "center" }}>
                     <View style={styles.profileImage}>
-                        <Image source={require("./assets/profile-pic.jpg")} style={styles.image} resizeMode="center"></Image>
+                        <Image source={require("./assets/b.jpg")} style={styles.image} resizeMode="center"></Image>
                     </View>
                     <View style={styles.dm}>
                         <MaterialIcons name="chat" size={18} color="#DFD8C8"></MaterialIcons>
