@@ -18,7 +18,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Animated, { Easing, timing } from 'react-native-reanimated'
 import { FlatList } from "react-native-gesture-handler";
 import B from './BookDetail'
-
+import api from "../API/api";
 const { Value, timeing } = Animated
 
 const height = Dimensions.get('window').height
@@ -33,25 +33,27 @@ class SearchBar extends React.Component {
             items: [],
             isForcused: false,
             keyword: '',
-            items1:[
+            items1: [
                 {
-                          title1: "Other world for home",
-                          title2: "Jasmine warga",
-                          id:1,
-                          rating:4,
-                          language: 'English',
-                          description:"",
-                          uri:"https://cdn.amightygirl.com/catalog/product/cache/1/image/602f0fa2c1f0d1ba5e241f914e856ff9/o/t/other_words.jpg"
-                        },
-                        {
-                          title1: "Dead is like a wind",
-                          title2: "Yasuo",
-                          id:2,
-                          rating:4,
-                          language: 'English',
-                          description:"",
-                          uri:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_25w8CXqZ_ntCxktCHE4qtlojdtS6zD9kODzSNR5X4_Uzq317xYv1EjdPLUT6oCfjkQ4&usqp=CAU"
-                        },
+                    title1: "Other world for home",
+                    author: "Jasmine warga",
+                    id: 1,
+                    rating: 4,
+                    language: 'English',
+                    description: "Tiểu thuyết Bác sĩ Zhivago được Pasternak viết xong năm 1956, nhưng do nội dung không thích hợp với đời sống văn học, chính trị Liên Xô lúc bấy giờ, nên đã bị Viện Văn học Moskva và Hội Nhà văn Liên Xô kịch liệt phản đối, các nhà xuất bản ở Liên Xô từ chối xuất bản, còn bản thân Pasternak bị Hội Nhà văn Liên Xô kịch liệt lên án, đả kích. Dù không được xuất bản trong nước và bị lên án dữ dội, nhưng tiểu thuyết Bác sĩ Zhivago vẫn tìm được đường đến với độc giả các nước phương Tây. Năm 1957, bản thảo truyện được in thành sách tiếng Nga tại Ý. Năm sau có ấn bản tiếng Ý và tiếng Anh. Pasternak nhờ đó mà được đề nghị nhận giải Nobel văn chương năm 1958, nhưng chính quyền Xô viết bấy giờ ép ông phải từ chối nhận giải thưởng này. Mãi đến 1988, tiểu thuyết Bác sĩ Zhivago mới được cho in và xuất bản tại Nga. Cho đến tận ngày nay, Bác sĩ Zhivago vẫn được xem là cuốn tiểu thuyết gây sóng gió bậc nhất, là tác phẩm văn học điển hình nhất của cuộc chiến tư tưởng giữa hai siêu cường thời Chiến tranh lạnh",
+                    image: "https://readvii.com/wp-content/uploads/2020/01/sach-bac-si-zhivago-209x300.png",
+                    uri: "http://samples.leanpub.com/thereactnativebook-sample.pdf"
+                },
+                {
+                    title1: "Không Gia Đình",
+                    author: "Hector Malot",
+                    id: 2,
+                    rating: 4,
+                    language: 'English',
+                    description: "Không Gia Đình kể về chuyện đời Rémi, một cậu bé không cha mẹ, họ hàng thân thích. Sau khi phải rời khỏi vòng tay của người má nuôi, em đã đi theo đoàn xiếc thú của cụ già Vitalis tốt bụng. Kể từ đó, em lưu lạc khắp nơi, ban đầu dưới sự che chở của cụ Vitalis, sau đó thì tự lập và còn lo cả công việc biểu diễn và sinh sống cho cả một gánh hát rong. Đã có lúc em và cả đoàn lang thang cả mấy ngày đói khát rồi còn suýt chết rét. Có bận em bị lụt ngầm chôn trong giếng mỏ hàng tuần. Rồi có lần em còn mắc oan bị giải ra tòa và phải ở tù. Nhưng cũng có khi em được nuôi nấng đàng hoàng, no ấm. Song dù trong hoàn cảnh nào, Rémi vẫn giữ được sự gan dạ, ngay thẳng, lòng tự trọng, tính thương người, ham lao động chứ không hạ mình hay gian dối. Cuối cùng, sau bao gian nan khổ cực, em đã đoàn tụ được với gia đình của mình. Tác phẩm đã ca ngợi sự lao động bền bỉ, tinh thần tự lập, chịu đựng gian khó, khích lệ tình bạn chân chính. Ca ngợi lòng nhân ái, tình yêu cuộc sống, ý chí vươn lên không ngừng…Không Gia Đình vì thế đã vượt qua biên giới nước Pháp và tồn tại lâu dài với thời gian.",
+                    image: "https://readvii.com/wp-content/uploads/2020/01/sach-khong-gia-dinh-212x300.png",
+                    uri: "http://samples.leanpub.com/thereactnativebook-sample.pdf"
+                },
             ]
         }
         // animatione values
@@ -63,7 +65,7 @@ class SearchBar extends React.Component {
     componentDidUpdate() {
         if (this.state.items == null) {
             const getItem = () => {
-                fetch('http:192.168.8.100:5000/api/book/autocomplete', {
+                fetch(api.url1 + "/api/book/autocomplete", {
                     method: "POST",
                     headers: {
                         'Accept': 'application/json',
@@ -80,6 +82,7 @@ class SearchBar extends React.Component {
                         })
                     }
                     )
+                console.log(this.keyword)
             }
             getItem()
         }
@@ -190,10 +193,16 @@ class SearchBar extends React.Component {
                     <View style={styles.header}>
                         <View style={styles.header_inner}>
                             <View>
-                                <Image
-                                    source={require('../Assets/Bookshop-Logo.png')}
-                                    style={{ height: 50, width: 150 }}
-                                />
+                                <Text
+                                    style={{
+                                        marginLeft: "6%",
+                                        fontSize: 30,
+                                        fontWeight: "bold",
+                                        color: "#560CCE",
+                                    }}
+                                >
+                                    Tìm kiếm
+                                </Text>
                             </View>
                             <TouchableHighlight
                                 activeOpacity={1}
@@ -226,21 +235,30 @@ class SearchBar extends React.Component {
                                 />
                             </Animated.View>
                         </View>
+                        <View
+                            style={{
+                                marginTop: 5,
+                                height: 1,
+                                backgroundColor: "#e6e4eb",
+                                width: width - 32,
+                                marginLeft: 16,
+                            }}
+                        />
                     </View>
                 </SafeAreaView>
                 <View style={styles.content_trendy}>
-                    <Text style={{ fontSize: 30, fontWeight: "bold", marginLeft: 40, marginTop: 50 }}>Trending</Text>
+                    <Text style={{ fontSize: 30, fontWeight: "bold", marginLeft: 20, marginTop: 50 }}>Có thể bạn sẽ thích</Text>
                     <View style={styles.separator} />
                     <ScrollView style={{}}>
                         <TouchableOpacity style={styles.search_item} onPress={() =>
-                    this.props.navigation.navigate("BookDetail", {book: this.state.items1[0]})}>
+                            this.props.navigation.navigate("BookDetail", { book: this.state.items1[0] })}>
                             <Icon style={styles.item_icon} name="search" size={23} color="#cccccc" />
-                            <Text style={styles.trendy_text}>Kết quả 1 nè </Text>
+                            <Text style={styles.trendy_text}>Bác Sĩ Zhivago </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.search_item} onPress={() =>
-                    this.props.navigation.navigate("BookDetail", {book: this.state.items1[1]})}>
+                            this.props.navigation.navigate("BookDetail", { book: this.state.items1[1] })}>
                             <Icon style={styles.item_icon} name="search" size={23} color="#cccccc" />
-                            <Text style={styles.trendy_text}>Kết quả 2 nè </Text>
+                            <Text style={styles.trendy_text}>Không Gia Đình </Text>
                         </TouchableOpacity>
                     </ScrollView>
                 </View>
@@ -256,7 +274,7 @@ class SearchBar extends React.Component {
                             backgroundColor: "rgba(240,240,232,0.3)",
                         }} />
                         <View style={styles.content_inner}>
-                            <View style={styles.separator} />
+                            {/* <View style={styles.separator} /> */}
                             <View style={{ height: 610 }}>
                                 {
                                     this.state.keyword === ''
@@ -342,6 +360,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         backgroundColor: '#c4d1e7',
+        borderRadius: 16,
         width: width - 32,
     },
     back_icon_box: {
@@ -369,12 +388,13 @@ const styles = StyleSheet.create({
         marginLeft: 16
     },
     input: {
-        flex: 1,
+        //flex: 1,
         height: 40,
         backgroundColor: '#e4e6eb',
         borderRadius: 16,
         paddingHorizontal: 16,
-        fontSize: 15
+        fontSize: 15,
+        width : 295
     },
     content: {
         width: width,

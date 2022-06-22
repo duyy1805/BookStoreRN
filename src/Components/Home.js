@@ -38,9 +38,19 @@ class Home extends React.Component {
         super(props);
         this.state = {
             items: [],
+            time: "",
         };
         this.scrollY = new Animated.Value(0);
     }
+
+    getCurrentTime = () => {
+        let today = new Date();
+        let hours = (today.getHours() < 10 ? '0' : '') + today.getHours();
+        let minutes = (today.getMinutes() < 10 ? '0' : '') + today.getMinutes();
+        let seconds = (today.getSeconds() < 10 ? '0' : '') + today.getSeconds();
+        return hours + ':' + minutes + ':' + seconds;
+    }
+
     getGreeting = () => {
         const hours = new Date().getHours();
         if (hours < 12) {
@@ -64,8 +74,9 @@ class Home extends React.Component {
                 });
         };
         getItem();
+        this.state.time = this.getCurrentTime();
     }
-    
+
     _render_item = ({ item, index }) => {
         return (
             <TouchableOpacity
@@ -202,6 +213,8 @@ class Home extends React.Component {
     render() {
         var ran = JSON.parse(JSON.stringify(this.state.items));
         ran.sort(() => Math.random() - 0.5);
+        var ran2 = JSON.parse(JSON.stringify(ran));
+        ran2.sort(() => Math.random() - 0.5);
         return (
             <>
                 <ImageBackground
@@ -266,13 +279,22 @@ class Home extends React.Component {
                             >
                                 {this.getGreeting()}
                             </Text>
-                            <TouchableOpacity style={{ marginRight: "7%" }} onPress={() => this.props.navigation.popToTop()}>
+                            {/* <TouchableOpacity style={{ marginRight: "7%" }} onPress={() => this.props.navigation.popToTop()}>
                                 <Ionicons
                                     name="person-circle-outline"
                                     size={40}
                                     color="#7FA1F8"
                                 />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
+                            <Text
+                                style={{
+                                    marginRight: "6%",
+                                    fontSize: 15,
+                                    fontWeight: "bold",
+                                    color: "#560CCE",
+                                }}>
+                                {/* {this.state.time} */}
+                            </Text>
                         </View>
                         <View
                             style={{
@@ -283,18 +305,83 @@ class Home extends React.Component {
                                 marginLeft: 16,
                             }}
                         />
-                        <ScrollView style={{height:"10%"}}>
-                        <View style={{ height: "8%", width: "100%" }}>
-                            <Text
-                                style={{
-                                    fontSize: 15,
-                                    marginLeft: "6%",
-                                    marginTop: "2%",
-                                    color: "#0071e3",
-                                }}
-                            >
-                                Discover new books
-                            </Text>
+                        <ScrollView style={{ height: "10%" }}>
+                            <View style={{ height: "5%", width: "100%" }}>
+                                <Text
+                                    style={{
+                                        fontSize: 15,
+                                        marginLeft: "6%",
+                                        marginTop: "2%",
+                                        color: "#0071e3",
+                                    }}
+                                >
+
+                                </Text>
+                                <Text
+                                    style={{
+                                        fontSize: 20,
+                                        fontWeight: "bold",
+                                        marginLeft: "6%",
+                                        marginTop: "2%",
+                                    }}
+                                >
+                                    Sách nổi bật
+                                </Text>
+                            </View>
+
+                            <View>
+                                <FlatList
+                                    data={ran}
+                                    renderItem={this._render_item}
+                                    keyExtractor={(item) => item._id.toString()}
+                                    horizontal={true}
+                                    style={{
+                                        marginLeft: "7%",
+                                        marginTop: "2%",
+                                        height: 250,
+                                        width: "93%",
+                                    }}
+                                    ItemSeparatorComponent={() => (
+                                        <View
+                                            style={{ width: 30, height: "30%" }}
+                                        />
+                                    )}
+                                />
+                            </View>
+
+                            <View style={{ height: "3%", width: "100%" }}>
+                                <Text
+                                    style={{
+                                        fontSize: 20,
+                                        fontWeight: "bold",
+                                        marginLeft: "6%",
+                                        marginTop: "2%",
+                                    }}
+                                >
+                                    Tiểu thuyết
+                                </Text>
+                            </View>
+
+                            <View>
+                                <FlatList
+                                    data={ran2}
+                                    renderItem={this._render_item}
+                                    keyExtractor={(item) => item._id.toString()}
+                                    horizontal={true}
+                                    style={{
+                                        marginLeft: "7%",
+                                        marginTop: "2%",
+                                        height: 250,
+                                        width: "93%",
+                                    }}
+                                    ItemSeparatorComponent={() => (
+                                        <View
+                                            style={{ width: 30, height: "30%" }}
+                                        />
+                                    )}
+                                />
+                            </View>
+
                             <Text
                                 style={{
                                     fontSize: 20,
@@ -303,45 +390,15 @@ class Home extends React.Component {
                                     marginTop: "2%",
                                 }}
                             >
-                                Popular books
+                                Được tìm kiếm nhiều nhất
                             </Text>
-                        </View>
-
-                        <View>
-                            <FlatList
-                                data={ran}
-                                renderItem={this._render_item}
-                                keyExtractor={(item) => item._id.toString()}
-                                horizontal={true}
-                                style={{
-                                    marginLeft: "7%",
-                                    marginTop:"2%",
-                                    height: 250,
-                                    width: "93%",
-                                }}
-                                ItemSeparatorComponent={() => (
-                                    <View
-                                        style={{ width: 30, height: "30%" }}
-                                    />
-                                )}
-                            />
-                        </View>
-                        <Text
-                            style={{
-                                fontSize: 20,
-                                fontWeight: "bold",
-                                marginLeft: "6%",
-                                marginTop: "2%",
-                            }}
-                        >
-                            Hot books
-                        </Text>
-                        {/* <View> */}
+                            {/* <View> */}
                             <View
                                 style={{
                                     marginTop: 10,
                                     flexDirection: "row",
                                     width: "100%",
+                                    marginBottom: "31%"
                                 }}
                             >
                                 <Animated.FlatList
@@ -350,7 +407,7 @@ class Home extends React.Component {
                                     keyExtractor={(item) => `key-${item._id}`}
                                     style={{
                                         marginLeft: "7%",
-                                        height: 275, //275
+                                        height: 775, //275
                                         width: "100%",
                                     }}
                                     ItemSeparatorComponent={() => (
@@ -372,7 +429,7 @@ class Home extends React.Component {
                                     )}
                                 />
                             </View>
-                        {/* </View> */}
+                            {/* </View> */}
                         </ScrollView>
                     </SafeAreaView>
                 </View>

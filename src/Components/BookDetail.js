@@ -4,7 +4,7 @@ import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 import Params from "../API/Params";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Popup, Toast, Root } from "popup-ui copy";
+import { Popup, Toast, Root } from "popup-ui2";
 import { MyContext } from "./Context";
 import {
     StyleSheet,
@@ -222,7 +222,7 @@ const BookDetail = ({ route, navigation }) => {
                                 color: "#000",
                             }}
                         >
-                            Book Detail
+                            Thông tin sách
                         </Text>
                     </View>
 
@@ -300,7 +300,7 @@ const BookDetail = ({ route, navigation }) => {
                                 color: "#FFFFFF",
                             }}
                         >
-                            Rating
+                            Đánh giá
                         </Text>
                     </View>
 
@@ -332,7 +332,7 @@ const BookDetail = ({ route, navigation }) => {
                                 color: "#FFFFFF",
                             }}
                         >
-                            Language
+                            Ngôn ngữ
                         </Text>
                     </View>
                 </View>
@@ -412,7 +412,7 @@ const BookDetail = ({ route, navigation }) => {
                             marginBottom: 24,
                         }}
                     >
-                        Description
+                        Mô tả
                     </Text>
                     <Text
                         style={{
@@ -456,6 +456,7 @@ const BookDetail = ({ route, navigation }) => {
                                         DownloadBook();
                                         const uri = book.uri;
                                         const str = book.title1;
+                                        removeVietnameseTones(str)
                                         setColorDL("#62b35d");
                                         function capitalize(str) {
                                             return (
@@ -463,7 +464,7 @@ const BookDetail = ({ route, navigation }) => {
                                                 str.slice(1)
                                             );
                                         }
-                                        const caps = str
+                                        const caps = removeVietnameseTones(str)
                                             .split(" ")
                                             .map(capitalize)
                                             .join("_");
@@ -537,7 +538,7 @@ const BookDetail = ({ route, navigation }) => {
                                     }}
                                 >
                                     {" "}
-                                    Start Reading
+                                    Nhấn để học
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -565,4 +566,32 @@ const BookDetail = ({ route, navigation }) => {
     }
 };
 
+function removeVietnameseTones(str) {
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+    str = str.replace(/đ/g,"d");
+    str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+    str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+    str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+    str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+    str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+    str = str.replace(/Đ/g, "D");
+    // Some system encode vietnamese combining accent as individual utf-8 characters
+    // Một vài bộ encode coi các dấu mũ, dấu chữ như một kí tự riêng biệt nên thêm hai dòng này
+    str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // ̀ ́ ̃ ̉ ̣  huyền, sắc, ngã, hỏi, nặng
+    str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // ˆ ̆ ̛  Â, Ê, Ă, Ơ, Ư
+    // Remove extra spaces
+    // Bỏ các khoảng trắng liền nhau
+    str = str.replace(/ + /g," ");
+    str = str.trim();
+    // Remove punctuations
+    // Bỏ dấu câu, kí tự đặc biệt
+    str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+    return str;
+}
 export default { BookDetail, readBook };

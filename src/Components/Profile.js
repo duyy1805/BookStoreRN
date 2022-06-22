@@ -7,6 +7,8 @@ import { MyContext } from "./Context";
 import { NavigationContainer } from "@react-navigation/native";
 
 import { createStackNavigator } from "@react-navigation/stack";
+import Button from "./component/Button";
+
 const Profile = ({navigation, route }) => {
     const [btn,setBtn] = useState("Log out")
     return (
@@ -45,7 +47,7 @@ const Profile = ({navigation, route }) => {
                 <View style={styles.infoContainer}>
                     <MyContext.Consumer>
                     {(context) => (
-                        context.username == null ? setBtn("Return to main menu") : setBtn("Log out"),
+                        context.username == null ? setBtn("Trở về trang chính") : setBtn("Đăng xuất"),
                         <>
                         <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>{context.username}</Text>
                         {/* <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}></Text> */}
@@ -71,11 +73,12 @@ const Profile = ({navigation, route }) => {
                         <Text style={[styles.text, { fontSize: 12, color: "#DFD8C8", textTransform: "uppercase" }]}>More...</Text>
                     </View>
                 </View>
-                <View style={{marginTop:50}}>
+                <View style={{marginTop:50, alignItems: "center"}}>
                     <TouchableOpacity
                                 style={{
-                                    flex: 1,
-                                    backgroundColor: "#F96D41",
+                                    // flex: 1,
+                                    width : 250,
+                                    backgroundColor: "#590CE4",
                                     marginHorizontal: 8,
                                     marginVertical: 8,
                                     borderRadius: 12,

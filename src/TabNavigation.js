@@ -42,7 +42,7 @@ export default function TabNavigation({ route, navigation }) {
                             <Ionicons name="home" color={color} size={35} />
                         ),
                     }}
-                    name="Home"
+                    name="Trang chủ"
                     component={Home}
                     listeners={({ navigation, route }) => ({
                         // Onpress Update....
@@ -62,7 +62,7 @@ export default function TabNavigation({ route, navigation }) {
                             <Ionicons name="library" color={color} size={35} />
                         ),
                     }}
-                    name="Library"
+                    name="Thư viện"
                     component={Library}
                     listeners={({ navigation, route }) => ({
                         // Onpress Update....
@@ -83,7 +83,7 @@ export default function TabNavigation({ route, navigation }) {
                             <Ionicons name="search" color={color} size={35} />
                         ),
                     }}
-                    name="Search"
+                    name="Tìm kiếm"
                     component={SearchBar}
                     listeners={({ navigation, route }) => ({
                         // Onpress Update....
@@ -103,7 +103,7 @@ export default function TabNavigation({ route, navigation }) {
                             <Ionicons name="person" color={color} size={35} />
                         ),
                     }}
-                    name="Profile"
+                    name="Cá nhân"
                     component={Profile}
                     listeners={({ navigation, route }) => ({
                         // Onpress Update....
@@ -120,7 +120,7 @@ export default function TabNavigation({ route, navigation }) {
                 style={{
                     width: Dev_width / 4,
                     height: 2,
-                    backgroundColor: "red",
+                    backgroundColor: "#590CE4",
                     position: "absolute",
                     bottom: 80,
                     // Horizontal Padding = 20...

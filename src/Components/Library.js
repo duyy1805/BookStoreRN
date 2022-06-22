@@ -47,27 +47,28 @@ class Library extends React.Component {
     //         });
     // };
     getItem = () => {
-        fetch(api.url1 + "/api/book/show/downloaded",{
+        fetch(api.url1 + "/api/book/show/downloaded", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                username : this.u
+                username: this.u
             }),
         })
-        .then((res) => res.json())
-        .then((data) => {
-            // console.log(data)
-            this.setState({
-                items: data,
-                refreshing: false,
+            .then((res) => res.json())
+            .then((data) => {
+                // console.log(data)
+                this.setState({
+                    items: data,
+                    refreshing: false,
+                });
             });
-        });
     };
     componentDidMount() {
-        this.getItem();
+        console.log(this.u),
+            this.getItem();
     }
 
     componentWillUnmount() {
@@ -117,91 +118,97 @@ class Library extends React.Component {
     };
     render() {
         return (
-            // <SafeAreaView style = {{
-            //   height : Dev_Height,
-            //   width : Dev_width
-            // }}>
-            <>
-                <MyContext.Consumer>
-                    {(context) => (
-                        this.u= context.username,
-                        <>
-                            {/* {this.u=context.username} */}
-                            <ImageBackground
-                                source={{
-                                    uri: "https://kenh14cdn.com/2020/9/25/hinh-nen-iphone-11-1600990116056809485952.jpg",
-                                }}
-                                style={{
-                                    position: "absolute",
-                                    top: 0,
-                                    right: 0,
-                                    left: 0,
-                                    bottom: 0,
-                                }}
-                            />
-                            <View
-                                style={{
-                                    position: "absolute",
-                                    top: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    left: 0,
-                                    backgroundColor: "rgba(240,240,232,0.3)",
-                                }}
-                            />
-                            <View
-                                style={{
-                                    height: "15%",
-                                    width: "100%",
-                                    paddingTop: 20,
-                                    flexDirection: "row",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    backgroundColor: "rgba(240,240,232,0.6)",
-                                }}
-                            >
-                                <Text
-                                    style={{ fontSize: 20, fontWeight: "bold" }}
-                                >
-                                     Library
-                                </Text>
-                                {/* <TouchableOpacity onPress={() => this.setState({items: null})} style = {{marginLeft:"70%"}}>
-                    <Ionicons name = "refresh-outline" size = {32} color= "#7FA1F8"/>
-          </TouchableOpacity> */}
-                            </View>
-                            <View>
-                                {this.state.refreshing ? (
-                                    <ActivityIndicator />
-                                ) : null}
-                                <FlatList
-                                    data={this.state.items}
-                                    renderItem={this._render_item}
-                                    keyExtractor={(item) => item._id.toString()}
-                                    numColumns={2}
-                                    style={{
-                                        marginLeft: "7%",
-                                        height: 620,
-                                        width: "100%",
+            <SafeAreaView style={{
+                height: Dev_Height,
+                width: Dev_width
+            }}>
+                <>
+                    <MyContext.Consumer>
+                        {(context) => (
+                            this.u = context.username,
+                            <>
+                                {/* {this.u=context.username} */}
+                                <ImageBackground
+                                    source={{
+                                        uri: "https://kenh14cdn.com/2020/9/25/hinh-nen-iphone-11-1600990116056809485952.jpg",
                                     }}
-                                    ItemSeparatorComponent={() => (
-                                        <View
-                                            style={{ width: 13, height: 13 }}
-                                        />
-                                    )}
-                                    refreshControl={
-                                        <RefreshControl
-                                            //refresh control used for the Pull to Refresh
-                                            refreshing={this.state.refreshing}
-                                            onRefresh={this.onRefresh}
-                                        />
-                                    }
+                                    style={{
+                                        position: "absolute",
+                                        top: 0,
+                                        right: 0,
+                                        left: 0,
+                                        bottom: 0,
+                                    }}
                                 />
-                            </View>
-                        </>
-                    )}
-                </MyContext.Consumer>
-            </>
-            // </SafeAreaView>
+                                <View
+                                    style={{
+                                        height: "7%",
+                                        width: "100%",
+                                        backgroundColor: "",
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        paddingTop: "5%",
+                                        justifyContent: "space-between",
+                                    }}
+                                >
+                                    {/* <TouchableOpacity style={{ marginLeft: "6%" }}>
+            <Ionicons name="ios-menu" size={32} color="#7FA1F8" />
+          </TouchableOpacity> */}
+                                    <Text
+                                        style={{
+                                            marginLeft: "6%",
+                                            fontSize: 30,
+                                            fontWeight: "bold",
+                                            color: "#560CCE",
+                                        }}
+                                    >
+                                        Thư viện
+                                    </Text>
+                                </View>
+                                <View
+                                    style={{
+                                        marginTop: 5,
+                                        height: 1,
+                                        backgroundColor: "#e6e4eb",
+                                        width: Dev_width - 32,
+                                        marginLeft: 16,
+                                    }}
+                                />
+
+                                <View>
+                                    {this.state.refreshing ? (
+                                        <ActivityIndicator />
+                                    ) : null}
+                                    <FlatList
+                                        data={this.state.items}
+                                        renderItem={this._render_item}
+                                        keyExtractor={(item) => item._id.toString()}
+                                        numColumns={2}
+                                        style={{
+                                            marginLeft: "7%",
+                                            marginTop: "7%",
+                                            height: 620,
+                                            width: "100%",
+                                        }}
+                                        ItemSeparatorComponent={() => (
+                                            <View
+                                                style={{ width: 13, height: 13 }}
+                                            />
+                                        )}
+                                        refreshControl={
+                                            <RefreshControl
+                                                //refresh control used for the Pull to Refresh
+                                                refreshing={this.state.refreshing}
+                                                onRefresh={this.onRefresh}
+                                            />
+                                        }
+                                    />
+                                </View>
+                            </>
+                        )}
+                    </MyContext.Consumer>
+                </>
+            </SafeAreaView>
         );
     }
 }
@@ -229,6 +236,20 @@ export default function MyStack() {
         </Stack.Navigator>
     );
 }
+
+const LineDivider = () => {
+    return (
+        <View style={{ width: 1, paddingVertical: 5 }}>
+            <View
+                style={{
+                    flex: 1,
+                    borderLeftColor: "#EFEFF0",
+                    borderLeftWidth: 1,
+                }}
+            ></View>
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     shadow: {
