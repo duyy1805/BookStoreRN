@@ -215,6 +215,8 @@ class Home extends React.Component {
         ran.sort(() => Math.random() - 0.5);
         var ran2 = JSON.parse(JSON.stringify(ran));
         ran2.sort(() => Math.random() - 0.5);
+        ran2.splice(0,7);
+        ran.splice(0,10);
         return (
             <>
                 <ImageBackground
@@ -305,7 +307,10 @@ class Home extends React.Component {
                                 marginLeft: 16,
                             }}
                         />
-                        <ScrollView style={{ height: "10%" }}>
+                        <ScrollView 
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                        style={{ height: "10%" }}>
                             <View style={{ height: "5%", width: "100%" }}>
                                 <Text
                                     style={{
@@ -335,6 +340,8 @@ class Home extends React.Component {
                                     renderItem={this._render_item}
                                     keyExtractor={(item) => item._id.toString()}
                                     horizontal={true}
+                                    showsVerticalScrollIndicator={false}
+                                    showsHorizontalScrollIndicator={false}
                                     style={{
                                         marginLeft: "7%",
                                         marginTop: "2%",
@@ -368,6 +375,8 @@ class Home extends React.Component {
                                     renderItem={this._render_item}
                                     keyExtractor={(item) => item._id.toString()}
                                     horizontal={true}
+                                    showsVerticalScrollIndicator={false}
+                                    showsHorizontalScrollIndicator={false}
                                     style={{
                                         marginLeft: "7%",
                                         marginTop: "2%",

@@ -538,7 +538,7 @@ const BookDetail = ({ route, navigation }) => {
                                     }}
                                 >
                                     {" "}
-                                    Nhấn để học
+                                    Nhấn để đọc
                                 </Text>
                             </TouchableOpacity>
                         </View>
